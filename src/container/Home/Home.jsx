@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { AlertMui } from '../Alert';
 import { AddReminder, EditReminder } from '../Form';
+import { nanoid } from 'nanoid';
 import { ReminderTable } from '../Table';
 
 const Home = () => {
@@ -7,41 +9,106 @@ const Home = () => {
   const initialFormState = {
     id: null,
     title: '',
-    dateTime: '',
+    date: '',
+    time: '',
   };
 
   // Setting state
-  // const [passReminders, setPastReminder] = useState([]);
-  // const [upcomingReminders, setUpcomingReminders] = useState([]);
-  const [reminders, setReminders] = useState([]);
+  const [allReminders, setAllReminders] = useState([]);
+  const [pastReminders, setPastReminder] = useState([]);
+  const [upcomingReminders, setUpcomingReminders] = useState([]);
   const [currentReminder, setCurrentReminder] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
+  const [succeed, setSucceed] = useState(false);
+  const [failure, setFailure] = useState(false);
 
-  // filter the reminders based on date-time
+  // write a cron job for filter(past & future) the all the reminders
   useEffect(() => {
-    console.log('filetering...');
-    const past = reminders.filter((event) => console.log(event.dateTime));
-    console.log(past);
-  }, [reminders]);
+    let todayDate = new Date();
+
+    // get the current date
+    const currDate = todayDate.getDate();
+    const currMonth = todayDate.getMonth() + 1;
+    const currYear = todayDate.getFullYear();
+
+    // get the current time
+    const currHours = todayDate.getHours();
+    const currMin = todayDate.getMinutes();
+
+    // filter the past reminders
+    const past = allReminders.filter((d) => {
+      const hours = d.timeStamp.getHours();
+      const minutes = d.timeStamp.getMinutes();
+      const date = d.timeStamp.getDate();
+      const month = d.timeStamp.getMonth();
+      const year = d.timeStamp.getFullYear();
+
+      if (year <= currYear) {
+        if (month <= currMonth) {
+          if (date <= currDate) {
+            if (hours <= currHours) {
+              if (minutes < currMin) {
+                return d;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // filter the future reminders
+    const future = allReminders.filter((d) => {
+      const hours = d.timeStamp.getHours();
+      const minutes = d.timeStamp.getMinutes();
+      const date = d.timeStamp.getDate();
+      const month = d.timeStamp.getMonth();
+      const year = d.timeStamp.getFullYear();
+
+      if (year >= currYear) {
+        if (month >= currMonth) {
+          if (date >= currDate) {
+            if (hours >= currHours) {
+              if (minutes > currMin) {
+                console.log('we are in future..!', d);
+                return d;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    console.log('future =>', future);
+
+    // set the past & future reminders
+    setPastReminder(past);
+    setUpcomingReminders(future);
+  }, [allReminders]);
 
   // CRUD operations
   const addNewReminder = (reminder) => {
-    if (reminder.title && reminder.dateTime) {
-      reminder.id = new Date().getTime();
-      setReminders([...reminders, reminder]);
+    if (reminder.title && reminder.date && reminder.time) {
+      reminder.id = nanoid();
+      reminder.dateTimestamp = new Date().getTime();
+      setAllReminders([...allReminders, reminder]);
+      setFailure(false);
+      setSucceed(true);
+    } else {
+      setSucceed(false);
+      setFailure(true);
     }
     document.getElementById('addReminderFormId').reset();
   };
 
   const deleteOldReminder = (id) => {
     setEditing(false);
-    setReminders(reminders.filter((reminder) => reminder.id !== id));
+    setAllReminders(allReminders.filter((reminder) => reminder.id !== id));
   };
 
   const updateOldReminder = (id, updatedReminder) => {
     setEditing(false);
-    setReminders(
-      reminders.map((reminder) =>
+    setAllReminders(
+      allReminders.map((reminder) =>
         reminder.id === id ? updatedReminder : reminder
       )
     );
@@ -53,7 +120,8 @@ const Home = () => {
     setCurrentReminder({
       id: reminder.id,
       title: reminder.title,
-      dateTime: reminder.dateTime,
+      date: reminder.date,
+      time: reminder.time,
     });
   };
 
@@ -73,11 +141,39 @@ const Home = () => {
       </div>
       <div>
         <ReminderTable
-          reminders={!reminders ? [] : reminders}
+          allReminders={!allReminders ? [] : allReminders}
+          pastReminders={!pastReminders ? [] : pastReminders}
+          upcomingReminders={!upcomingReminders ? [] : upcomingReminders}
           editRow={editRow}
           deleteOldReminder={deleteOldReminder}
         />
       </div>
+      {succeed ? (
+        <AlertMui
+          msg={'Reminder added successfully!'}
+          severity={'success'}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
+      ) : (
+        <AlertMui
+          msg={'Something Went Wrong!'}
+          severity={'danger'}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
+      )}
+      {failure ? (
+        <AlertMui
+          msg={'Reminder deleted successfully!'}
+          severity={'danger'}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
+      ) : (
+        <AlertMui
+          msg={'Something Went Wrong!'}
+          severity={'danger'}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        />
+      )}
     </div>
   );
 };

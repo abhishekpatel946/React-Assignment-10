@@ -8,3 +8,12 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 * separate list showing all the upcoming reminders and the past reminders  
 * Since this is a frontend task  
 * please take user experience into consideration 
+
+
+Feature
+```
+1. add ToolTip for more intractive
+2. add Snakbar for usablility
+3. filter the reminder and render it
+4. think of it...!
+```

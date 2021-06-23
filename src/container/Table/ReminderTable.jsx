@@ -1,136 +1,132 @@
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
 import './style.scss';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 16,
-  },
-}))(TableCell);
+import TableMui from './TableMui';
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
   },
-});
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}>
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
 
 const ReminderTable = (props) => {
   // destructring props
-  const { editRow, deleteOldReminder, reminders } = props;
+  const {
+    editRow,
+    deleteOldReminder,
+    allReminders,
+    pastReminders,
+    upcomingReminders,
+  } = props;
+
+  // Mui classes
   const classes = useStyles();
 
-  return (
-    <div className='reminder-table'>
-      <TableContainer className='tableContainer' component={Paper}>
-        <Table className={classes.table} aria-label='customized table'>
-          <TableHead>
-            <TableRow className='thead'>
-              <StyledTableCell align='center'>Pass Reminders</StyledTableCell>
-              <StyledTableCell align='center'>Date/Time</StyledTableCell>
-              <StyledTableCell align='center'>Actions</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reminders && reminders.length > 0 ? (
-              reminders.map((reminder) => (
-                <StyledTableRow key={reminder.id}>
-                  <StyledTableCell component='th' scope='row'>
-                    {reminder.title}
-                  </StyledTableCell>
-                  <StyledTableCell align='center'>
-                    {reminder.dateTime}
-                  </StyledTableCell>
-                  <StyledTableCell align='center'>
-                    <EditIcon
-                      onClick={() => {
-                        editRow(reminder);
-                      }}
-                    />
-                    <DeleteIcon
-                      onClick={() => deleteOldReminder(reminder.id)}
-                    />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))
-            ) : (
-              <StyledTableCell align='center'>
-                No Past Reminder left.
-              </StyledTableCell>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+  // tab swithching value
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
-      <TableContainer className='tableContainer' component={Paper}>
-        <Table className={classes.table} aria-label='customized table'>
-          <TableHead>
-            <TableRow className='thead'>
-              <StyledTableCell align='center'>
-                UpComing Remiders
-              </StyledTableCell>
-              <StyledTableCell align='center'>Date/Time</StyledTableCell>
-              <StyledTableCell align='center'>Actions</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reminders && reminders.length > 0 ? (
-              reminders.map((reminder) => (
-                <StyledTableRow key={reminder.id}>
-                  <StyledTableCell component='th' scope='row'>
-                    {reminder.title}
-                  </StyledTableCell>
-                  <StyledTableCell align='center'>
-                    {reminder.dateTime}
-                  </StyledTableCell>
-                  <StyledTableCell align='center'>
-                    <EditIcon
-                      onClick={() => {
-                        editRow(reminder);
-                      }}
-                    />
-                    <DeleteIcon
-                      onClick={() => deleteOldReminder(reminder.id)}
-                    />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))
-            ) : (
-              <StyledTableCell align='center'>
-                No UpComing Reminder left.
-              </StyledTableCell>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+  return (
+    <div className={classes.root}>
+      <AppBar position='static' color='default'>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor='secondary'
+          textColor='secondary'
+          variant='scrollable'
+          scrollButtons='auto'
+          aria-label='scrollable auto tabs example'>
+          <Tab label='All Reminders' {...a11yProps(0)} />
+          <Tab label='Past Reminders' {...a11yProps(1)} />
+          <Tab label='UpComing Reminders' {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+
+      {/* all reminders */}
+      <TabPanel value={value} index={0}>
+        <TableMui
+          reminders={allReminders}
+          editRow={editRow}
+          deleteOldReminder={deleteOldReminder}
+          tableHeading={'All Reminders'}
+        />
+      </TabPanel>
+
+      {/* past reminders */}
+      <TabPanel value={value} index={1}>
+        <TableMui
+          reminders={pastReminders}
+          editRow={editRow}
+          deleteOldReminder={deleteOldReminder}
+          tableHeading={'Past Reminders'}
+        />
+      </TabPanel>
+
+      {/* upcoming reminders */}
+      <TabPanel value={value} index={2}>
+        <TableMui
+          reminders={upcomingReminders}
+          editRow={editRow}
+          deleteOldReminder={deleteOldReminder}
+          tableHeading={'UpComing Reminders'}
+        />
+      </TabPanel>
     </div>
   );
 };
 
 // typechecking with propTypes
 ReminderTable.propTypes = {
-  reminders: PropTypes.object,
+  allReminders: PropTypes.object,
+  pastReminders: PropTypes.object,
+  upcomingReminders: PropTypes.object,
   editRow: PropTypes.func,
   deleteOldReminder: PropTypes.func,
 };

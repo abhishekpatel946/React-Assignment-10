@@ -1,3 +1,4 @@
 import ReminderTable from './ReminderTable';
+import TableMui from './TableMui';
 
-export { ReminderTable };
+export { TableMui, ReminderTable };
