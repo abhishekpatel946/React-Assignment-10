@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AlertMui } from '../Alert';
+import { Snackbar } from '@material-ui/core';
 import { AddReminder, EditReminder } from '../Form';
 import { nanoid } from 'nanoid';
 import { ReminderTable } from '../Table';
@@ -69,7 +69,6 @@ const Home = () => {
           if (date >= currDate) {
             if (hours >= currHours) {
               if (minutes > currMin) {
-                console.log('we are in future..!', d);
                 return d;
               }
             }
@@ -78,8 +77,8 @@ const Home = () => {
       }
     });
 
+    console.log('past => ', past);
     console.log('future =>', future);
-
     // set the past & future reminders
     setPastReminder(past);
     setUpcomingReminders(future);
@@ -149,26 +148,26 @@ const Home = () => {
         />
       </div>
       {succeed ? (
-        <AlertMui
+        <Snackbar
           msg={'Reminder added successfully!'}
           severity={'success'}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       ) : (
-        <AlertMui
+        <Snackbar
           msg={'Something Went Wrong!'}
           severity={'danger'}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       )}
       {failure ? (
-        <AlertMui
+        <Snackbar
           msg={'Reminder deleted successfully!'}
           severity={'danger'}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       ) : (
-        <AlertMui
+        <Snackbar
           msg={'Something Went Wrong!'}
           severity={'danger'}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

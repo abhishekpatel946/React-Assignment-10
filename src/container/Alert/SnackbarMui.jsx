@@ -1,11 +1,7 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import PropTypes from 'prop-types';
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
-}
+import { Alert } from './Alert';
 
 const AlertMui = (props) => {
   // destructring props

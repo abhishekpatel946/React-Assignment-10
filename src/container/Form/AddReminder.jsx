@@ -28,7 +28,12 @@ const AddReminder = (props) => {
       '-' +
       dateValue.getFullYear();
 
-    finalTime = dateValue.getHours() + ':' + dateValue.getMinutes();
+    finalTime =
+      dateValue.getHours() +
+      ':' +
+      dateValue.getMinutes() +
+      ' ' +
+      (dateValue.getHours < 12 ? 'AM' : 'PM');
   };
 
   const handleInputChange = (event) => {
@@ -67,6 +72,7 @@ const AddReminder = (props) => {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           className='dateField'
+          label='Masked datepicker'
           clearable
           value={dateValue}
           placeholder='01/01/2021'
@@ -83,7 +89,6 @@ const AddReminder = (props) => {
           onChange={(date) => setDateValue(date)}
         />
       </MuiPickersUtilsProvider>
-      <br />
       <br />
       <Buttons title={'Add Reminder'} color={'primary'} onClick={handleClick} />
     </form>

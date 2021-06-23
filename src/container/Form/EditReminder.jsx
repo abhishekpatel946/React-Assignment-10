@@ -75,6 +75,7 @@ const EditReminder = (props) => {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           className='dateField'
+          label='Masked datepicker'
           clearable
           value={dateValue}
           placeholder='01/01/2021'
@@ -91,7 +92,6 @@ const EditReminder = (props) => {
           onChange={(date) => setDateValue(date)}
         />
       </MuiPickersUtilsProvider>
-      <br />
       <br />
       <Buttons
         title={'Update Reminder'}

@@ -1,14 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import Typography from '@material-ui/core/Typography';
-import './style.scss';
-
 import TableMui from './TableMui';
+import { a11yProps } from './a11yProps';
+import { TabPanel } from './TabPanel';
+import { makeStyles } from '@material-ui/core/styles';
+import './style.scss';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -17,41 +16,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
+    padding: '0px',
     backgroundColor: theme.palette.background.paper,
   },
 }));
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}>
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
-  };
-}
 
 const ReminderTable = (props) => {
   // destructring props
@@ -129,6 +97,12 @@ ReminderTable.propTypes = {
   upcomingReminders: PropTypes.object,
   editRow: PropTypes.func,
   deleteOldReminder: PropTypes.func,
+};
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
 };
 
 export default ReminderTable;

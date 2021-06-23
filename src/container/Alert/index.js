@@ -1,3 +1,3 @@
-import AlertMui from './AlertMui';
+import SnackbarMui from './SnackbarMui';
 
-export { AlertMui };
+export { SnackbarMui };
