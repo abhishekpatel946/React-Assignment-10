@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { AddReminder, EditReminder } from '../Form';
-import { Buttons } from '../Form/Form-components';
 import { nanoid } from 'nanoid';
 import { makeStyles } from '@material-ui/core/styles';
 import { ReminderTable } from '../Table';
 import { getModalStyle } from './getModalStyle';
+import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Fab from '@material-ui/core/Fab';
 import Modal from '@material-ui/core/Modal';
 import './style.scss';
 
@@ -233,6 +234,7 @@ const Home = () => {
             setEditing={setEditing}
             currentReminder={currentReminder}
             updateOldReminder={updateOldReminder}
+            setOpen={setOpen}
           />
         ) : (
           <AddReminder addNewReminder={addNewReminder} />
@@ -243,20 +245,9 @@ const Home = () => {
 
   return (
     <div className='home-container'>
-      {editing ? (
-        <Buttons
-          title={'Update Reminder'}
-          color={'secondary'}
-          onClick={handleOpen}
-        />
-      ) : (
-        <Buttons
-          title={'Add Reminder'}
-          color={'primary'}
-          onClick={handleOpen}
-        />
-      )}
-
+      <Fab className='fab' color='primary' aria-label='add'>
+        <AddIcon className='add-icon' onClick={handleOpen} />
+      </Fab>
       <Modal
         open={open}
         onClose={handleClose}
@@ -264,19 +255,7 @@ const Home = () => {
         aria-describedby='simple-modal-description'>
         {body}
       </Modal>
-
-      <div className='form-container'>
-        {/* {editing ? (
-          <EditReminder
-            editing={editing}
-            setEditing={setEditing}
-            currentReminder={currentReminder}
-            updateOldReminder={updateOldReminder}
-          />
-        ) : (
-          <AddReminder addNewReminder={addNewReminder} />
-        )} */}
-      </div>
+      <div className='form-container'></div>
       <div className='table-container'>
         <ReminderTable
           allReminders={!allReminders ? [] : allReminders}

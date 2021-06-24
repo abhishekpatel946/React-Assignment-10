@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { InputText, Buttons } from '../Form/Form-components';
-import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -17,24 +18,6 @@ const AddReminder = (props) => {
   const [reminder, setReminder] = useState([]);
   const [dateValue, setDateValue] = useState(new Date());
 
-  let finalDate, finalTime;
-
-  (function formatDateTime() {
-    finalDate =
-      dateValue.getDate() +
-      '-' +
-      (dateValue.getMonth() + 1) +
-      '-' +
-      dateValue.getFullYear();
-
-    finalTime =
-      dateValue.getHours() +
-      ':' +
-      dateValue.getMinutes() +
-      ' ' +
-      (dateValue.getHours() <= 12 ? 'AM' : 'PM');
-  })();
-
   const handleInputChange = (event) => {
     setReminder({
       title: event.target.value,
@@ -45,8 +28,8 @@ const AddReminder = (props) => {
     event.preventDefault();
     setReminder({
       ...reminder,
-      date: finalDate,
-      time: finalTime,
+      date: moment(reminder.timeStamp).format('L'),
+      time: moment(reminder.timeStamp).format('LT'),
       timeStamp: dateValue,
     });
     addNewReminder(reminder);

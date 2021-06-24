@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { InputText, Buttons } from '../Form/Form-components';
 import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -10,7 +11,7 @@ import {
 
 const EditReminder = (props) => {
   // destructring the props
-  const { setEditing, currentReminder, updateOldReminder } = props;
+  const { setEditing, currentReminder, updateOldReminder, setOpen } = props;
 
   const [reminder, setReminder] = useState(currentReminder);
   const [dateValue, setDateValue] = useState(new Date());
@@ -19,50 +20,32 @@ const EditReminder = (props) => {
     setReminder(props.currentReminder);
   }, [props]);
 
-  let finalDate, finalTime;
-  const formatDateTime = () => {
-    finalDate =
-      dateValue.getDate() +
-      '-' +
-      (dateValue.getMonth() + 1) +
-      '-' +
-      dateValue.getFullYear();
-
-    finalTime =
-      dateValue.getHours() +
-      ':' +
-      dateValue.getMinutes() +
-      ':' +
-      (dateValue.getHours() >= 12 ? 'PM' : 'AM');
-  };
-
   const handleInputChange = (event) => {
-    formatDateTime();
     setReminder({
       id: currentReminder.id,
       title: event.target.value,
-      date: currentReminder.date,
-      time: currentReminder.time,
+      date: moment(reminder.timeStamp).format('L'),
+      time: moment(reminder.timeStamp).format('LT'),
       timeStamp: currentReminder.timeStamp,
     });
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-    formatDateTime();
-
     setReminder({
-      date: finalDate,
-      time: finalTime,
+      date: moment(reminder.timeStamp).format('L'),
+      time: moment(reminder.timeStamp).format('LT'),
     });
 
     updateOldReminder(reminder.id, reminder);
 
     // reset the Value;s
     setDateValue(new Date());
+    setOpen(false);
   };
 
   const handleCancelClick = () => {
+    setOpen(false);
     setEditing(false);
   };
 
@@ -119,6 +102,7 @@ EditReminder.propTypes = {
   setEditing: PropTypes.func,
   currentReminder: PropTypes.object,
   updateOldReminder: PropTypes.func,
+  setOpen: PropTypes.bool,
 };
 
 export default EditReminder;
