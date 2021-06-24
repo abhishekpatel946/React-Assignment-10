@@ -1,5 +1,6 @@
 # React-Assignment-10
-Using all the concepts of hooks you have gathered till now let's create a react app to achieve the following:  
+Using all the concepts of hooks you have gathered till now let's create a react app to achieve the following: 
+```
 * a simple reminder app  
 * you can create reminders  
 * a reminder would consist of a title  
@@ -8,20 +9,15 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 * separate list showing all the upcoming reminders and the past reminders  
 * Since this is a frontend task  
 * please take user experience into consideration 
-
-
-## Feature
-```
-1. NA
 ```
 
 ## Images
 
-**All Reminders**
-![image](./src/assets/all-reminders.png)
+**Updated Reminder App**
+![image](./src/assets/updated-reminder-app.png)
 
-**Past Reminders**
-![image](./src/assets/past-reminders.png)
+**Add Reminders**
+![image](./src/assets/add-reminders.png)
 
-**Upcoming Reminders**
-![image](./src/assets/upcoming-reminders.png)
+**Update Reminders**
+![image](./src/assets/delete-reminders.png)
