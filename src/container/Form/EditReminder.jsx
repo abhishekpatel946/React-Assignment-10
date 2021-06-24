@@ -13,7 +13,6 @@ const EditReminder = (props) => {
   const { setEditing, currentReminder, updateOldReminder } = props;
 
   const [reminder, setReminder] = useState(currentReminder);
-  const [title, setTitle] = useState('');
   const [dateValue, setDateValue] = useState(new Date());
 
   useEffect(() => {
@@ -34,27 +33,33 @@ const EditReminder = (props) => {
       ':' +
       dateValue.getMinutes() +
       ':' +
-      (dateValue.getHours >= 12 ? 'PM' : 'AM');
+      (dateValue.getHours() >= 12 ? 'PM' : 'AM');
   };
 
   const handleInputChange = (event) => {
-    if (event.target) {
-      setTitle(event.target.value);
-    }
-    setReminder(title);
+    formatDateTime();
+    setReminder({
+      id: currentReminder.id,
+      title: event.target.value,
+      date: currentReminder.date,
+      time: currentReminder.time,
+      timeStamp: currentReminder.timeStamp,
+    });
   };
-
-  // something is not updated title & date-time also
 
   const handleClick = (event) => {
     event.preventDefault();
     formatDateTime();
-    setReminder({ title, date: finalDate, time: finalTime });
+
+    setReminder({
+      date: finalDate,
+      time: finalTime,
+    });
+
     updateOldReminder(reminder.id, reminder);
 
-    setTitle('');
+    // reset the Value;s
     setDateValue(new Date());
-    setEditing(false);
   };
 
   const handleCancelClick = () => {
@@ -80,7 +85,7 @@ const EditReminder = (props) => {
           value={dateValue}
           placeholder='01/01/2021'
           onChange={(date) => setDateValue(date)}
-          format='MM/dd/yyyy'
+          format='dd/MM/yyyy'
         />
         <br />
         <KeyboardTimePicker

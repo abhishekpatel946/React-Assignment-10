@@ -12,5 +12,5 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 
 Feature
 ```
-1. upComing reminder not works as of now.
+1. Date & Time not updated.
 ```

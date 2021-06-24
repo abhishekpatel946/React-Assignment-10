@@ -15,12 +15,11 @@ const AddReminder = (props) => {
   const { addNewReminder } = props;
 
   const [reminder, setReminder] = useState([]);
-  const [title, setTitle] = useState('');
   const [dateValue, setDateValue] = useState(new Date());
 
   let finalDate, finalTime;
 
-  const formatDateTime = () => {
+  (function formatDateTime() {
     finalDate =
       dateValue.getDate() +
       '-' +
@@ -33,28 +32,26 @@ const AddReminder = (props) => {
       ':' +
       dateValue.getMinutes() +
       ' ' +
-      (dateValue.getHours < 12 ? 'AM' : 'PM');
-  };
+      (dateValue.getHours() <= 12 ? 'AM' : 'PM');
+  })();
 
   const handleInputChange = (event) => {
-    if (event.target) {
-      setTitle(event.target.value);
-    }
-    setReminder(title);
+    setReminder({
+      title: event.target.value,
+    });
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-    formatDateTime();
     setReminder({
-      title,
+      ...reminder,
       date: finalDate,
       time: finalTime,
       timeStamp: dateValue,
     });
     addNewReminder(reminder);
 
-    setTitle('');
+    // reset the value;s
     setDateValue(new Date());
   };
 
@@ -77,7 +74,7 @@ const AddReminder = (props) => {
           value={dateValue}
           placeholder='01/01/2021'
           onChange={(date) => setDateValue(date)}
-          format='MM/dd/yyyy'
+          format='dd/MM/yyyy'
         />
         <br />
         <KeyboardTimePicker

@@ -10,6 +10,7 @@ const Home = () => {
     title: '',
     date: '',
     time: '',
+    timeStamp: '',
   };
 
   // Setting state
@@ -37,8 +38,19 @@ const Home = () => {
       const hours = d.timeStamp.getHours();
       const minutes = d.timeStamp.getMinutes();
       const date = d.timeStamp.getDate();
-      const month = d.timeStamp.getMonth();
+      const month = d.timeStamp.getMonth() + 1;
       const year = d.timeStamp.getFullYear();
+
+      console.log('');
+      console.log('past reminder', year, month, date, hours, minutes);
+      console.log(
+        'current reminder',
+        currYear,
+        currMonth,
+        currDate,
+        currHours,
+        currMin
+      );
 
       if (year <= currYear) {
         if (month <= currMonth) {
@@ -58,8 +70,19 @@ const Home = () => {
       const hours = d.timeStamp.getHours();
       const minutes = d.timeStamp.getMinutes();
       const date = d.timeStamp.getDate();
-      const month = d.timeStamp.getMonth();
+      const month = d.timeStamp.getMonth() + 1;
       const year = d.timeStamp.getFullYear();
+
+      console.log('');
+      console.log('future reminder', year, month, date, hours, minutes);
+      console.log(
+        'current reminder',
+        currYear,
+        currMonth,
+        currDate,
+        currHours,
+        currMin
+      );
 
       if (year >= currYear) {
         if (month >= currMonth) {
@@ -74,8 +97,9 @@ const Home = () => {
       }
     });
 
-    console.log('past => ', past);
-    console.log('future =>', future);
+    // log
+    console.log('past', past);
+    console.log('future', future);
 
     // set the past & future reminders
     setPastReminder(past);
@@ -114,6 +138,7 @@ const Home = () => {
       title: reminder.title,
       date: reminder.date,
       time: reminder.time,
+      timeStamp: reminder.timeStamp,
     });
   };
 
