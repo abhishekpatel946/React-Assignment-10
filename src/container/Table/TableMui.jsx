@@ -48,7 +48,7 @@ const TableMui = (props) => {
         <Table className={classes.table} aria-label='customized table'>
           <TableHead>
             <TableRow className='thead'>
-              <StyledTableCell align='center'>{tableHeading}</StyledTableCell>
+              <StyledTableCell align='left'>{tableHeading}</StyledTableCell>
               <StyledTableCell align='center'>Date</StyledTableCell>
               <StyledTableCell align='center'>Time</StyledTableCell>
               <StyledTableCell align='center'>Actions</StyledTableCell>

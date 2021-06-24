@@ -16,9 +16,13 @@ const useStyles = makeStyles((theme) => ({
     width: '20%',
     backgroundColor: theme.palette.background.default,
     alignItems: 'center',
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
+    border: '1px solid #000',
+    boxShadow: theme.shadows[12],
     padding: theme.spacing(2, 4, 3),
+  },
+  margin: {
+    margin: theme.spacing(1),
+    float: 'right',
   },
 }));
 
@@ -245,7 +249,11 @@ const Home = () => {
 
   return (
     <div className='home-container'>
-      <Fab className='fab' color='primary' aria-label='add'>
+      <Fab
+        className={classes.margin}
+        size='small'
+        color='primary'
+        aria-label='add'>
         <AddIcon className='add-icon' onClick={handleOpen} />
       </Fab>
       <Modal

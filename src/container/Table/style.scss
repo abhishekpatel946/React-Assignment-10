@@ -11,7 +11,10 @@ MuiBox-root MuiBox-root-89 {
   align-items: center;
   .table-container {
     .actions-icons {
-      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
 
       .edit-icons {
         color: $lightGreen;
