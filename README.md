@@ -10,13 +10,18 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 * please take user experience into consideration 
 
 
-Feature
+## Feature
 ```
 1. Date & Time not updated.
 ```
 
-Images
+## Images
 
+**All Reminders**
 ![image](./src/assets/all-reminders.png)
+
+**Past Reminders**
 ![image](./src/assets/past-reminders.png)
+
+**Upcoming Reminders**
 ![image](./src/assets/upcoming-reminders.png)
