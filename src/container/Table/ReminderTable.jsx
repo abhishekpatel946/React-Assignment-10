@@ -12,6 +12,7 @@ import './style.scss';
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 100,
+    padding: '0px',
   },
   root: {
     flexGrow: 1,

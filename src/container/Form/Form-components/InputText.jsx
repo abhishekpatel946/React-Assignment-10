@@ -13,7 +13,7 @@ const InputText = (props) => {
       id='standard-basic'
       label={placeholder}
       type={type}
-      value={value}
+      value={!value ? ' ' : value}
       name={name}
       required
       onChange={onChange}

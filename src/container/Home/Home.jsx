@@ -1,7 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { AddReminder, EditReminder } from '../Form';
+import { Buttons } from '../Form/Form-components';
 import { nanoid } from 'nanoid';
+import { makeStyles } from '@material-ui/core/styles';
 import { ReminderTable } from '../Table';
+import { getModalStyle } from './getModalStyle';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Modal from '@material-ui/core/Modal';
+import './style.scss';
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: '20%',
+    backgroundColor: theme.palette.background.default,
+    alignItems: 'center',
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const Home = () => {
   // initial Form State Data
@@ -41,25 +59,50 @@ const Home = () => {
       const month = d.timeStamp.getMonth() + 1;
       const year = d.timeStamp.getFullYear();
 
-      console.log('');
-      console.log('past reminder', year, month, date, hours, minutes);
-      console.log(
-        'current reminder',
-        currYear,
-        currMonth,
-        currDate,
-        currHours,
-        currMin
-      );
-
       if (year <= currYear) {
         if (month <= currMonth) {
           if (date <= currDate) {
             if (hours <= currHours) {
-              if (minutes < currMin) {
+              if (minutes <= currMin) {
+                return d;
+              }
+              // if minutes is bigger than currMin
+              else {
+                if (year <= currYear) {
+                  if (month <= currMonth) {
+                    if (date <= currDate) {
+                      if (hours < currHours) {
+                        return d;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            // if hours is bigger than currHours
+            else {
+              if (year <= currYear) {
+                if (month <= currMonth) {
+                  if (date < currDate) {
+                    return d;
+                  }
+                }
+              }
+            }
+          }
+          // if date is bigger than currDate
+          else {
+            if (year <= currYear) {
+              if (month < currMonth) {
                 return d;
               }
             }
+          }
+        }
+        // if month is bigger than currMonth
+        else {
+          if (year < currYear) {
+            return d;
           }
         }
       }
@@ -73,33 +116,54 @@ const Home = () => {
       const month = d.timeStamp.getMonth() + 1;
       const year = d.timeStamp.getFullYear();
 
-      console.log('');
-      console.log('future reminder', year, month, date, hours, minutes);
-      console.log(
-        'current reminder',
-        currYear,
-        currMonth,
-        currDate,
-        currHours,
-        currMin
-      );
-
       if (year >= currYear) {
         if (month >= currMonth) {
           if (date >= currDate) {
             if (hours >= currHours) {
-              if (minutes >= currMin) {
+              if (minutes > currMin) {
+                return d;
+              }
+              // if minutes is bigger than currMin
+              else {
+                if (year >= currYear) {
+                  if (month >= currMonth) {
+                    if (date >= currDate) {
+                      if (hours > currHours) {
+                        return d;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            // if hours is bigger than currHours
+            else {
+              if (year >= currYear) {
+                if (month >= currMonth) {
+                  if (date > currDate) {
+                    return d;
+                  }
+                }
+              }
+            }
+          }
+          // if date is bigger than currDate
+          else {
+            if (year >= currYear) {
+              if (month > currMonth) {
                 return d;
               }
             }
           }
         }
+        // if month is bigger than currMonth
+        else {
+          if (year > currYear) {
+            return d;
+          }
+        }
       }
     });
-
-    // log
-    console.log('past', past);
-    console.log('future', future);
 
     // set the past & future reminders
     setPastReminder(past);
@@ -132,6 +196,7 @@ const Home = () => {
   };
 
   const editRow = (reminder) => {
+    setOpen(true);
     setEditing(true);
     setCurrentReminder({
       id: reminder.id,
@@ -142,8 +207,25 @@ const Home = () => {
     });
   };
 
-  return (
-    <div>
+  // modalHandles
+  const classes = useStyles();
+  // getModalStyle is not a pure function, we roll the style only on the first render
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setEditing(false);
+  };
+
+  // modal body
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <CancelIcon className='close-icon' onClick={handleClose} />
       <div>
         {editing ? (
           <EditReminder
@@ -156,7 +238,46 @@ const Home = () => {
           <AddReminder addNewReminder={addNewReminder} />
         )}
       </div>
-      <div>
+    </div>
+  );
+
+  return (
+    <div className='home-container'>
+      {editing ? (
+        <Buttons
+          title={'Update Reminder'}
+          color={'secondary'}
+          onClick={handleOpen}
+        />
+      ) : (
+        <Buttons
+          title={'Add Reminder'}
+          color={'primary'}
+          onClick={handleOpen}
+        />
+      )}
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='simple-modal-title'
+        aria-describedby='simple-modal-description'>
+        {body}
+      </Modal>
+
+      <div className='form-container'>
+        {/* {editing ? (
+          <EditReminder
+            editing={editing}
+            setEditing={setEditing}
+            currentReminder={currentReminder}
+            updateOldReminder={updateOldReminder}
+          />
+        ) : (
+          <AddReminder addNewReminder={addNewReminder} />
+        )} */}
+      </div>
+      <div className='table-container'>
         <ReminderTable
           allReminders={!allReminders ? [] : allReminders}
           pastReminders={!pastReminders ? [] : pastReminders}

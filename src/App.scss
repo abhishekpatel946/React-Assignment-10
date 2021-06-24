@@ -2,21 +2,24 @@
 @import './SCSS/fontStack';
 
 .App {
-  text-align: center;
-
   .App-header {
     background-color: $black;
     min-height: 4vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
     font-size: calc(10px + 2vmin);
+
+    .App-logo {
+      height: 80px;
+      width: 80px;
+    }
 
     .heading {
       color: $white;
       font-family: $font-stack;
       font-weight: 100;
+      font-size: 30px;
+      margin: 10px;
     }
   }
 }

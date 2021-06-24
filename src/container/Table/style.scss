@@ -1,6 +1,10 @@
 @import '../../SCSS/colorStack';
 @import '../../SCSS/fontStack';
 
+MuiBox-root MuiBox-root-89 {
+  padding: 0px !important;
+}
+
 .reminder-table {
   display: flex;
   justify-content: space-evenly;

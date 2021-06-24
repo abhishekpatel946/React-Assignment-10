@@ -65,16 +65,16 @@ const AddReminder = (props) => {
         onChange={handleInputChange}
       />
       <br />
-      <br />
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           className='dateField'
           label='Masked datepicker'
-          clearable
           value={dateValue}
           placeholder='01/01/2021'
           onChange={(date) => setDateValue(date)}
           format='dd/MM/yyyy'
+          clearable
+          required
         />
         <br />
         <KeyboardTimePicker
@@ -84,6 +84,7 @@ const AddReminder = (props) => {
           mask='__:__ _M'
           value={dateValue}
           onChange={(date) => setDateValue(date)}
+          required
         />
       </MuiPickersUtilsProvider>
       <br />
