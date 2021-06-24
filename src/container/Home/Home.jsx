@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Snackbar } from '@material-ui/core';
 import { AddReminder, EditReminder } from '../Form';
 import { nanoid } from 'nanoid';
 import { ReminderTable } from '../Table';
@@ -19,8 +18,6 @@ const Home = () => {
   const [upcomingReminders, setUpcomingReminders] = useState([]);
   const [currentReminder, setCurrentReminder] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
-  const [succeed, setSucceed] = useState(false);
-  const [failure, setFailure] = useState(false);
 
   // write a cron job for filter(past & future) the all the reminders
   useEffect(() => {
@@ -68,7 +65,7 @@ const Home = () => {
         if (month >= currMonth) {
           if (date >= currDate) {
             if (hours >= currHours) {
-              if (minutes > currMin) {
+              if (minutes >= currMin) {
                 return d;
               }
             }
@@ -79,6 +76,7 @@ const Home = () => {
 
     console.log('past => ', past);
     console.log('future =>', future);
+
     // set the past & future reminders
     setPastReminder(past);
     setUpcomingReminders(future);
@@ -90,11 +88,6 @@ const Home = () => {
       reminder.id = nanoid();
       reminder.dateTimestamp = new Date().getTime();
       setAllReminders([...allReminders, reminder]);
-      setFailure(false);
-      setSucceed(true);
-    } else {
-      setSucceed(false);
-      setFailure(true);
     }
     document.getElementById('addReminderFormId').reset();
   };
@@ -147,32 +140,6 @@ const Home = () => {
           deleteOldReminder={deleteOldReminder}
         />
       </div>
-      {succeed ? (
-        <Snackbar
-          msg={'Reminder added successfully!'}
-          severity={'success'}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        />
-      ) : (
-        <Snackbar
-          msg={'Something Went Wrong!'}
-          severity={'danger'}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        />
-      )}
-      {failure ? (
-        <Snackbar
-          msg={'Reminder deleted successfully!'}
-          severity={'danger'}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        />
-      ) : (
-        <Snackbar
-          msg={'Something Went Wrong!'}
-          severity={'danger'}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        />
-      )}
     </div>
   );
 };
