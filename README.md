@@ -12,7 +12,7 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 
 ## Feature
 ```
-1. Date & Time not updated.
+1. NA
 ```
 
 ## Images
