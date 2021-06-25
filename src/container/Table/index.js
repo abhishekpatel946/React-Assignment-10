@@ -1,4 +1,4 @@
-import ReminderTable from './ReminderTable';
+import ReminderTabs from './ReminderTabs';
 import TableMui from './TableMui';
 
-export { TableMui, ReminderTable };
+export { TableMui, ReminderTabs };

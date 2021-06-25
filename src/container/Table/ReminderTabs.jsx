@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ReminderTable = (props) => {
+const ReminderTabs = (props) => {
   // destructring props
   const {
     editRow,
@@ -39,6 +39,25 @@ const ReminderTable = (props) => {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  // JSON for reminder tab-tables
+  const reminderTablesData = {
+    editRow: editRow,
+    deleteOldReminder: deleteOldReminder,
+
+    allReminders: {
+      title: 'All Reminders',
+      reminders: allReminders,
+    },
+    pastReminders: {
+      title: 'Past Reminders',
+      reminders: pastReminders,
+    },
+    upcomingReminders: {
+      title: 'Upcoming Reminders',
+      reminders: upcomingReminders,
+    },
   };
 
   return (
@@ -58,44 +77,27 @@ const ReminderTable = (props) => {
         </Tabs>
       </AppBar>
 
-      {/* all reminders */}
-      <TabPanel value={value} index={0}>
-        <TableMui
-          reminders={allReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-          tableHeading={'All Reminders'}
-        />
-      </TabPanel>
-
-      {/* past reminders */}
-      <TabPanel value={value} index={1}>
-        <TableMui
-          reminders={pastReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-          tableHeading={'Past Reminders'}
-        />
-      </TabPanel>
-
-      {/* upcoming reminders */}
-      <TabPanel value={value} index={2}>
-        <TableMui
-          reminders={upcomingReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-          tableHeading={'UpComing Reminders'}
-        />
-      </TabPanel>
+      {Object.entries(reminderTablesData).map((key, index) => {
+        return (
+          <TabPanel value={value} index={index}>
+            <TableMui
+              title={key[1].title}
+              reminders={key[1].reminders}
+              editRow={editRow}
+              deleteOldReminder={deleteOldReminder}
+            />
+          </TabPanel>
+        );
+      })}
     </div>
   );
 };
 
 // typechecking with propTypes
-ReminderTable.propTypes = {
-  allReminders: PropTypes.object,
-  pastReminders: PropTypes.object,
-  upcomingReminders: PropTypes.object,
+ReminderTabs.propTypes = {
+  allReminders: PropTypes.array,
+  pastReminders: PropTypes.array,
+  upcomingReminders: PropTypes.array,
   editRow: PropTypes.func,
   deleteOldReminder: PropTypes.func,
 };
@@ -106,4 +108,4 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-export default ReminderTable;
+export default ReminderTabs;

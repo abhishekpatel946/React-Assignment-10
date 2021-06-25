@@ -4,10 +4,11 @@ import { filterByDateTime } from './fileterByDateTime';
 import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
 import { nanoid } from 'nanoid';
-import { ReminderTable } from '../Table';
+import { ReminderTabs } from '../Table';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Fab from '@material-ui/core/Fab';
+import logo from './../../logo.svg';
 import Modal from '@material-ui/core/Modal';
 import './style.scss';
 
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
   margin: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     margin: theme.spacing(1),
     float: 'right',
   },
@@ -112,46 +116,43 @@ const Home = () => {
           setOpen={setOpen}
           addNewReminder={addNewReminder}
         />
-        {/* {editing ? (
-          <EditReminder
-            editing={editing}
-            setEditing={setEditing}
-            currentReminder={currentReminder}
-            updateOldReminder={updateOldReminder}
-            setOpen={setOpen}
-          />
-        ) : (
-          <AddReminder addNewReminder={addNewReminder} />
-        )} */}
       </div>
     </div>
   );
 
   return (
-    <div className='home-container'>
-      <Fab
-        className={classes.margin}
-        size='small'
-        color='primary'
-        aria-label='add'>
-        <AddIcon className='add-icon' onClick={handleOpen} />
-      </Fab>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='simple-modal-title'
-        aria-describedby='simple-modal-description'>
-        {body}
-      </Modal>
-      <div className='form-container'></div>
-      <div className='table-container'>
-        <ReminderTable
-          allReminders={!allReminders ? [] : allReminders}
-          pastReminders={!pastReminders ? [] : pastReminders}
-          upcomingReminders={!upcomingReminders ? [] : upcomingReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-        />
+    <div className='App'>
+      <div className='App-header'>
+        <img src={logo} className='App-logo' alt='logo' />
+        <h2 className='heading'>Reminder App</h2>
+        <div className='fab-icon'>
+          <Fab
+            className={classes.margin}
+            size='small'
+            color='primary'
+            aria-label='add'>
+            <AddIcon className='add-icon' onClick={handleOpen} />
+          </Fab>
+        </div>
+      </div>
+      <div className='home-container'>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby='simple-modal-title'
+          aria-describedby='simple-modal-description'>
+          {body}
+        </Modal>
+        <div className='form-container'></div>
+        <div className='table-container'>
+          <ReminderTabs
+            allReminders={!allReminders ? [] : allReminders}
+            pastReminders={!pastReminders ? [] : pastReminders}
+            upcomingReminders={!upcomingReminders ? [] : upcomingReminders}
+            editRow={editRow}
+            deleteOldReminder={deleteOldReminder}
+          />
+        </div>
       </div>
     </div>
   );

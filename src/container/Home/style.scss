@@ -6,8 +6,10 @@
   align-items: center;
 }
 
-.fab {
-  float: right;
+.fab-icon {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 
   .add-icon {
     margin-right: 10px;
