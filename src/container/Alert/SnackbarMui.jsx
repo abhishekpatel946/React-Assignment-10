@@ -3,7 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 import { Alert } from './Alert';
 
-const AlertMui = (props) => {
+const SnackbarMui = (props) => {
   // destructring props
   const { msg, severity, anchorOrigin } = props;
 
@@ -31,10 +31,10 @@ const AlertMui = (props) => {
 };
 
 // typechecking with propTypes
-AlertMui.propTypes = {
+SnackbarMui.propTypes = {
   mgs: PropTypes.string,
   severity: PropTypes.string,
   anchorOrigin: PropTypes.object,
 };
 
-export default AlertMui;
+export default SnackbarMui;

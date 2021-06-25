@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { AddReminder, EditReminder } from '../Form';
-import { nanoid } from 'nanoid';
-import { makeStyles } from '@material-ui/core/styles';
-import { ReminderTable } from '../Table';
+import { FormReminder } from '../Form';
+import { filterByDateTime } from './fileterByDateTime';
 import { getModalStyle } from './getModalStyle';
+import { makeStyles } from '@material-ui/core/styles';
+import { nanoid } from 'nanoid';
+import { ReminderTable } from '../Table';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Fab from '@material-ui/core/Fab';
@@ -45,134 +46,7 @@ const Home = () => {
 
   // write a cron job for filter(past & future) the all the reminders
   useEffect(() => {
-    let todayDate = new Date();
-
-    // get the current date
-    const currDate = todayDate.getDate();
-    const currMonth = todayDate.getMonth() + 1;
-    const currYear = todayDate.getFullYear();
-
-    // get the current time
-    const currHours = todayDate.getHours();
-    const currMin = todayDate.getMinutes();
-
-    // filter the past reminders
-    const past = allReminders.filter((d) => {
-      const hours = d.timeStamp.getHours();
-      const minutes = d.timeStamp.getMinutes();
-      const date = d.timeStamp.getDate();
-      const month = d.timeStamp.getMonth() + 1;
-      const year = d.timeStamp.getFullYear();
-
-      if (year <= currYear) {
-        if (month <= currMonth) {
-          if (date <= currDate) {
-            if (hours <= currHours) {
-              if (minutes <= currMin) {
-                return d;
-              }
-              // if minutes is bigger than currMin
-              else {
-                if (year <= currYear) {
-                  if (month <= currMonth) {
-                    if (date <= currDate) {
-                      if (hours < currHours) {
-                        return d;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            // if hours is bigger than currHours
-            else {
-              if (year <= currYear) {
-                if (month <= currMonth) {
-                  if (date < currDate) {
-                    return d;
-                  }
-                }
-              }
-            }
-          }
-          // if date is bigger than currDate
-          else {
-            if (year <= currYear) {
-              if (month < currMonth) {
-                return d;
-              }
-            }
-          }
-        }
-        // if month is bigger than currMonth
-        else {
-          if (year < currYear) {
-            return d;
-          }
-        }
-      }
-    });
-
-    // filter the future reminders
-    const future = allReminders.filter((d) => {
-      const hours = d.timeStamp.getHours();
-      const minutes = d.timeStamp.getMinutes();
-      const date = d.timeStamp.getDate();
-      const month = d.timeStamp.getMonth() + 1;
-      const year = d.timeStamp.getFullYear();
-
-      if (year >= currYear) {
-        if (month >= currMonth) {
-          if (date >= currDate) {
-            if (hours >= currHours) {
-              if (minutes > currMin) {
-                return d;
-              }
-              // if minutes is bigger than currMin
-              else {
-                if (year >= currYear) {
-                  if (month >= currMonth) {
-                    if (date >= currDate) {
-                      if (hours > currHours) {
-                        return d;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            // if hours is bigger than currHours
-            else {
-              if (year >= currYear) {
-                if (month >= currMonth) {
-                  if (date > currDate) {
-                    return d;
-                  }
-                }
-              }
-            }
-          }
-          // if date is bigger than currDate
-          else {
-            if (year >= currYear) {
-              if (month > currMonth) {
-                return d;
-              }
-            }
-          }
-        }
-        // if month is bigger than currMonth
-        else {
-          if (year > currYear) {
-            return d;
-          }
-        }
-      }
-    });
-
-    // set the past & future reminders
-    setPastReminder(past);
-    setUpcomingReminders(future);
+    filterByDateTime(allReminders, setPastReminder, setUpcomingReminders);
   }, [allReminders]);
 
   // CRUD operations
@@ -182,7 +56,6 @@ const Home = () => {
       reminder.dateTimestamp = new Date().getTime();
       setAllReminders([...allReminders, reminder]);
     }
-    document.getElementById('addReminderFormId').reset();
   };
 
   const deleteOldReminder = (id) => {
@@ -197,7 +70,6 @@ const Home = () => {
         reminder.id === id ? updatedReminder : reminder
       )
     );
-    document.getElementById('editReminderFormId').reset();
   };
 
   const editRow = (reminder) => {
@@ -232,7 +104,15 @@ const Home = () => {
     <div style={modalStyle} className={classes.paper}>
       <CancelIcon className='close-icon' onClick={handleClose} />
       <div>
-        {editing ? (
+        <FormReminder
+          editing={editing}
+          setEditing={setEditing}
+          currentReminder={currentReminder}
+          updateOldReminder={updateOldReminder}
+          setOpen={setOpen}
+          addNewReminder={addNewReminder}
+        />
+        {/* {editing ? (
           <EditReminder
             editing={editing}
             setEditing={setEditing}
@@ -242,7 +122,7 @@ const Home = () => {
           />
         ) : (
           <AddReminder addNewReminder={addNewReminder} />
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import TableMui from './TableMui';
-import { a11yProps } from './a11yProps';
+import { allTabProps } from './allTabProps';
 import { TabPanel } from './TabPanel';
 import { makeStyles } from '@material-ui/core/styles';
 import './style.scss';
@@ -52,9 +52,9 @@ const ReminderTable = (props) => {
           variant='scrollable'
           scrollButtons='auto'
           aria-label='scrollable auto tabs example'>
-          <Tab label='All Reminders' {...a11yProps(0)} />
-          <Tab label='Past Reminders' {...a11yProps(1)} />
-          <Tab label='UpComing Reminders' {...a11yProps(2)} />
+          <Tab label='All Reminders' {...allTabProps(0)} />
+          <Tab label='Past Reminders' {...allTabProps(1)} />
+          <Tab label='Upcoming Reminders' {...allTabProps(2)} />
         </Tabs>
       </AppBar>
 

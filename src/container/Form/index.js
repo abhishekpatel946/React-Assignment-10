@@ -1,4 +1,3 @@
-import AddReminder from './AddReminder';
-import EditReminder from './EditReminder';
+import FormReminder from './FormReminder';
 
-export { AddReminder, EditReminder };
+export { FormReminder };
