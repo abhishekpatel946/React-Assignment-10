@@ -5,6 +5,7 @@ import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
 import { nanoid } from 'nanoid';
 import { ReminderTabs } from '../Table';
+import { StickyFooter } from '../Footer';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Fab from '@material-ui/core/Fab';
@@ -154,6 +155,7 @@ const Home = () => {
           />
         </div>
       </div>
+      <StickyFooter />
     </div>
   );
 };

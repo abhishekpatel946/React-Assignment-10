@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 
 const TableMui = (props) => {
   // destructring props
-  const { editRow, deleteOldReminder, reminders, title } = props;
+  const { editRow, deleteOldReminder, reminders, tableHeading } = props;
   const classes = useStyles();
 
   return (
@@ -48,7 +48,7 @@ const TableMui = (props) => {
         <Table className={classes.table} aria-label='customized table'>
           <TableHead>
             <TableRow className='thead'>
-              <StyledTableCell align='left'>{title}</StyledTableCell>
+              <StyledTableCell align='left'>{tableHeading}</StyledTableCell>
               <StyledTableCell align='center'>Date</StyledTableCell>
               <StyledTableCell align='center'>Time</StyledTableCell>
               <StyledTableCell align='center'>Actions</StyledTableCell>
@@ -103,10 +103,10 @@ const TableMui = (props) => {
 
 // typechecking with propTypes
 TableMui.propTypes = {
-  title: PropTypes.string,
   reminders: PropTypes.array,
   editRow: PropTypes.func,
   deleteOldReminder: PropTypes.func,
+  tableHeading: PropTypes.string,
 };
 
 export default TableMui;

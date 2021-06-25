@@ -11,6 +11,12 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 * please take user experience into consideration 
 ```
 
+## Pending
+```
+1. Login & SignUp with Router.
+2. Individual user has own remiders.
+```
+
 ## Images
 
 **Updated Reminder App**
