@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignSelf: 'flex-end',
-    marginTop: '30%',
+    marginTop: '45vh',
   },
   main: {
     marginTop: theme.spacing(8),
@@ -33,7 +33,7 @@ const StickyFooter = () => {
   return (
     <div className={classes.root}>
       <footer className={classes.footer}>
-        <Container maxWidth='sm'>
+        <Container maxWidth='md'>
           <Copyright />
         </Container>
       </footer>

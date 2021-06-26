@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { InputText, Buttons } from './Form-components';
 import { Grid } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
-import moment from 'moment';
+import { TextFieldMui, ButtonMui } from '../Form-components';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
   KeyboardTimePicker,
 } from '@material-ui/pickers';
-
-import './Form-components/style.scss';
+import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import '../Form-components/style.scss';
 
 const FormReminder = (props) => {
   // destructring props
@@ -79,7 +78,7 @@ const FormReminder = (props) => {
       justify='space-evenly'
       alignItems='stretch'>
       <form noValidate>
-        <InputText
+        <TextFieldMui
           name={'title'}
           type={'text'}
           placeholder={'Enter the title'}
@@ -107,14 +106,18 @@ const FormReminder = (props) => {
             required
           />
         </MuiPickersUtilsProvider>
-        <Buttons
+        <ButtonMui
           title={!editing ? 'Add Reminder' : 'Update Reminder'}
+          variant={'contained'}
+          fullWidth={'fullWidth'}
           color={'primary'}
           onClick={handleClick}
         />
-        <Buttons
+        <ButtonMui
+          variant={'contained'}
           title={'Cancel'}
           color={'secondary'}
+          fullWidth={'fullWidth'}
           onClick={handleCancelClick}
         />
       </form>

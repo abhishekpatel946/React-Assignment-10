@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { PrimarySearchAppBar } from '../AppBar';
 import { FormReminder } from '../Form';
 import { filterByDateTime } from './fileterByDateTime';
 import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
 import { nanoid } from 'nanoid';
 import { ReminderTabs } from '../Table';
-import { StickyFooter } from '../Footer';
-import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
-import Fab from '@material-ui/core/Fab';
-import logo from './../../logo.svg';
 import Modal from '@material-ui/core/Modal';
 import './style.scss';
 
@@ -28,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     margin: theme.spacing(1),
-    float: 'right',
   },
 }));
 
@@ -124,17 +120,7 @@ const Home = () => {
   return (
     <div className='App'>
       <div className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <h2 className='heading'>Reminder App</h2>
-        <div className='fab-icon'>
-          <Fab
-            className={classes.margin}
-            size='small'
-            color='primary'
-            aria-label='add'>
-            <AddIcon className='add-icon' onClick={handleOpen} />
-          </Fab>
-        </div>
+        <PrimarySearchAppBar handleOpen={handleOpen} />
       </div>
       <div className='home-container'>
         <Modal
@@ -155,7 +141,6 @@ const Home = () => {
           />
         </div>
       </div>
-      <StickyFooter />
     </div>
   );
 };

@@ -84,7 +84,7 @@ const ReminderTable = (props) => {
           reminders={upcomingReminders}
           editRow={editRow}
           deleteOldReminder={deleteOldReminder}
-          tableHeading={'UpComing Reminders'}
+          tableHeading={'Upcoming Reminders'}
         />
       </TabPanel>
     </div>
