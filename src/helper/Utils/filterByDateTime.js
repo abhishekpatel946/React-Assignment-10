@@ -14,6 +14,8 @@ export const filterByDateTime = (
   const currHours = todayDate.getHours();
   const currMin = todayDate.getMinutes();
 
+  console.log(allReminders);
+
   // filter the past reminders
   const past = allReminders.filter((d) => {
     const hours = d.timeStamp.getHours();

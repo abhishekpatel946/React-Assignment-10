@@ -49,17 +49,16 @@ const SignIn = ({ history }) => {
       event.preventDefault();
       try {
         await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
-        history.push('/home');
       } catch (err) {
         alert(err);
       }
     },
-    [history, email, password]
+    [email, password]
   );
 
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
-    return <Redirect to='/home' />;
+    return <Redirect to={'/home'} />;
   }
 
   return (

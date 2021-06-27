@@ -4,9 +4,15 @@ import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
   const { currentUser } = useContext(AuthContext);
+
+  let userId;
+  if (currentUser) {
+    userId = currentUser.uid;
+  }
+
   return (
     <Route
-      {...rest}
+      {...(rest.path + userId)}
       render={(routeProps) =>
         !!currentUser ? (
           <RouteComponent {...routeProps} />

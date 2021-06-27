@@ -130,7 +130,7 @@ FormReminder.propTypes = {
   addNewReminder: PropTypes.func,
   editing: PropTypes.bool,
   setEditing: PropTypes.func,
-  currentReminder: PropTypes.object,
+  currentReminder: PropTypes.array,
   updateOldReminder: PropTypes.func,
   setOpen: PropTypes.func,
 };

@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Link as RouteLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { StickyFooter } from '../Footer';
+import { SetNewUserIntoFireStore } from '../../helper/Utils/dbService';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -50,6 +51,7 @@ const SignIn = ({ history }) => {
         await firebaseConfig
           .auth()
           .createUserWithEmailAndPassword(email, password);
+        SetNewUserIntoFireStore();
         history.push('./home');
       } catch (err) {
         alert(err);

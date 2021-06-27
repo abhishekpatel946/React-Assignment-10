@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import firebaseConfig from '../../helper/firebase/firebaseConfig';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import firebaseConfig from '../../helper/firebase/firebaseConfig';
 import logo from './../../logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,6 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -70,12 +71,14 @@ const PrimarySearchAppBar = (props) => {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}>
+      <MenuItem>Profile</MenuItem>
+      <MenuItem>Account Settings</MenuItem>
       <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
@@ -90,27 +93,38 @@ const PrimarySearchAppBar = (props) => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton edge='start' aria-haspopup='true' color='inherit'>
-              <Fab
-                className={classes.margin}
-                size='small'
-                color='secondary'
-                aria-label='add'>
-                <AddIcon className='add-icon' onClick={props.handleOpen} />
-              </Fab>
-            </IconButton>
-            <IconButton
-              edge='end'
-              aria-label='account of current user'
-              aria-controls={menuId}
-              aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'>
-              <AccountCircle />
-              <Typography className={classes.title} variant='h6' noWrap>
-                User
-              </Typography>
-            </IconButton>
+            <Tooltip title='Add Reminder'>
+              <IconButton
+                edge='start'
+                aria-haspopup='true'
+                color='inherit'
+                onClick={props.handleOpen}>
+                <Fab
+                  className={classes.margin}
+                  size='small'
+                  color='secondary'
+                  aria-label='add'>
+                  <AddIcon className='add-icon' />
+                </Fab>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Profile'>
+              <IconButton
+                edge='end'
+                aria-label='account of current user'
+                aria-controls={menuId}
+                aria-haspopup='true'
+                onClick={handleProfileMenuOpen}
+                color='inherit'>
+                <Fab
+                  className={classes.margin}
+                  size='small'
+                  color='default'
+                  aria-label='add'>
+                  <AccountCircle />
+                </Fab>
+              </IconButton>
+            </Tooltip>
           </div>
         </Toolbar>
       </AppBar>

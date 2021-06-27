@@ -19,7 +19,7 @@ const App = () => {
           <Route exact path='/' component={SingIn} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/password-reset' component={PasswordReset} />
-          <PrivateRoute exact path='/home' component={Home} />
+          <PrivateRoute exact path='/home/' component={Home} />
           <Route exact component={PageNotFound} />
         </Switch>
       </div>

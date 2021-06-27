@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import {
+  GetFromFirestore,
+  SetIntoFirestore,
+} from '../../helper/Utils/dbService';
 import { PrimarySearchAppBar } from '../AppBar';
 import { FormReminder } from '../Form';
-import { filterByDateTime } from './fileterByDateTime';
+import { filterByDateTime } from '../../helper/Utils/filterByDateTime';
 import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
 import { nanoid } from 'nanoid';
 import { ReminderTabs } from '../Table';
+import moment from 'moment';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Modal from '@material-ui/core/Modal';
 import './style.scss';
@@ -29,14 +34,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  // Get data
+  const data = GetFromFirestore();
+
   // initial Form State Data
-  const initialFormState = {
-    id: null,
-    title: '',
-    date: '',
-    time: '',
-    timeStamp: '',
-  };
+  const initialFormState = [];
+  data.map((doc) => {
+    return initialFormState.push({
+      id: doc.id,
+      title: doc.title,
+      date: moment(doc.timestamp.toDate()).format('LL'),
+      time: moment(doc.timestamp.toDate()).format('LT'),
+      timeStamp: doc.timestamp.toDate(),
+    });
+  });
 
   // Setting state
   const [allReminders, setAllReminders] = useState([]);
@@ -45,7 +56,15 @@ const Home = () => {
   const [currentReminder, setCurrentReminder] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
 
-  // write a cron job for filter(past & future) the all the reminders
+  // set initialState as allReminder
+  useEffect(() => {
+    setAllReminders(initialFormState);
+    console.log(allReminders);
+  }, []);
+
+  console.log(allReminders);
+
+  // watcher for filter(past & future) the all the reminders
   useEffect(() => {
     filterByDateTime(allReminders, setPastReminder, setUpcomingReminders);
   }, [allReminders]);
@@ -56,6 +75,7 @@ const Home = () => {
       reminder.id = nanoid();
       reminder.dateTimestamp = new Date().getTime();
       setAllReminders([...allReminders, reminder]);
+      SetIntoFirestore(reminder.id, reminder, reminder.dateTimestamp);
     }
   };
 
