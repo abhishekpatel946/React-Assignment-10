@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Link as RouteLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { SetNewUserIntoFirestore } from '../../helper/Utils/dbService';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import firebaseConfig from '../../helper/Firebase/firebaseConfig';
+import firebaseConfig, { db } from '../../helper/Firebase/firebaseConfig';
+import firebase from 'firebase/app';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,21 +45,31 @@ const SignIn = ({ history }) => {
   const [password, setPassword] = useState('');
 
   // regiter with firebase
-  const register = useCallback(
-    async (event) => {
-      event.preventDefault();
+  const register = useCallback(async (event) => {
+    event.preventDefault();
+    try {
+      await firebaseConfig
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      console.log(firebase.auth().currentUser.uid);
       try {
-        await firebaseConfig
-          .auth()
-          .createUserWithEmailAndPassword(email, password)
-          .then(SetNewUserIntoFirestore(firstName, lastName, email));
-        history.push('./home');
+        db.collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .update({
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            uid: firebase.auth().currentUser.uid,
+          })
+          .doc('reminders');
       } catch (err) {
         alert(err);
       }
-    },
-    [history, email, password]
-  );
+      history.push('./home');
+    } catch (err) {
+      alert(err);
+    }
+  }, []);
 
   return (
     <div>

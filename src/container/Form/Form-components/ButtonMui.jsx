@@ -14,7 +14,7 @@ const ButtonMui = (props) => {
   const classes = useStyles();
 
   // destructring props
-  const { type, variant, fullWidth, title, color, onClick } = props;
+  const { type, variant, title, color, onClick } = props;
 
   return (
     <Button
@@ -23,7 +23,7 @@ const ButtonMui = (props) => {
       color={color}
       onClick={onClick}
       className={classes.submit}
-      fullWidth={fullWidth}>
+      fullWidth>
       {title}
     </Button>
   );

@@ -10,6 +10,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import './Form-components/style.scss';
+import { nanoid } from 'nanoid';
 
 const FormReminder = (props) => {
   // destructring props
@@ -24,46 +25,73 @@ const FormReminder = (props) => {
 
   const [newReminder, setNewReminder] = useState([]);
   const [oldReminder, setOldReminder] = useState(currentReminder);
-  const [dateValue, setDateValue] = useState(new Date());
+  const [selectedDate, setDate] = useState(moment());
+  const [selectedTime, setTime] = useState(moment());
+
+  const onDateChange = (value) => {
+    setDate(value);
+  };
+  const onTimeChange = (value) => {
+    setTime(value);
+  };
 
   const handleInputChange = (event) => {
     if (editing) {
       setOldReminder({
         id: currentReminder.id,
         title: event.target.value,
-        date: moment(oldReminder.timeStamp).format('L'),
-        time: moment(oldReminder.timeStamp).format('LT'),
-        timeStamp: currentReminder.timeStamp,
+        date: moment(selectedDate).format('LL'),
+        time: moment(selectedTime).format('LT'),
+        timestamp: currentReminder.timestamp,
       });
     } else {
       setNewReminder({
+        id: nanoid(),
         title: event.target.value,
+        date: moment(selectedDate).format('LL'),
+        time: moment(selectedTime).format('LT'),
+        timestamp: moment(selectedTime).toDate(),
       });
     }
   };
+
+  // console.log(
+  //   moment(selectedDate).format('LL'),
+  //   '\n',
+  //   moment(selectedTime).format('LT'),
+  //   '\n',
+  //   moment(selectedTime, selectedDate).toDate()
+  // );
+
+  // console.log(newReminder);
+
+  // console.log(
+  //   newReminder.date,
+  //   '\n',
+  //   newReminder.time,
+  //   '\n',
+  //   newReminder.timestamp
+  // );
 
   const handleClick = (event) => {
     event.preventDefault();
     if (editing) {
       setOldReminder({
         ...oldReminder,
-        date: moment(oldReminder.dateValue).format('LL'), // playing with momentAPI
-        time: moment(oldReminder.dateValue).format('LT'), // check others format for date & time
-        timeStamp: dateValue,
+        date: moment(selectedDate).format('LL'),
+        time: moment(selectedTime).format('LT'),
+        timestamp: moment(selectedTime).toDate(),
       });
       updateOldReminder(oldReminder.id, oldReminder);
     } else {
       setNewReminder({
         ...newReminder,
-        date: moment(newReminder.dateValue).format('LL'), // playing with momentAPI
-        time: moment(newReminder.dateValue).format('LT'), // check others format for date & time
-        timeStamp: dateValue,
+        date: moment(selectedDate).format('LL'),
+        time: moment(selectedTime).format('LT'),
+        timestamp: moment(selectedTime).toDate(),
       });
       addNewReminder(newReminder);
     }
-
-    // reset the value;s
-    setDateValue(new Date());
   };
 
   const handleCancelClick = () => {
@@ -89,9 +117,9 @@ const FormReminder = (props) => {
           <KeyboardDatePicker
             className='dateField'
             label='Masked datepicker'
-            value={dateValue}
+            value={selectedDate}
+            onChange={onDateChange}
             placeholder='01/01/2021'
-            onChange={(date) => setDateValue(date)}
             format='dd/MM/yyyy'
             clearable
             required
@@ -99,17 +127,15 @@ const FormReminder = (props) => {
           <KeyboardTimePicker
             className='dateField'
             label='Masked timepicker'
-            placeholder='08:00 AM'
             mask='__:__ _M'
-            value={dateValue}
-            onChange={(date) => setDateValue(date)}
+            value={selectedTime}
+            onChange={onTimeChange}
             required
           />
         </MuiPickersUtilsProvider>
         <ButtonMui
           title={!editing ? 'Add Reminder' : 'Update Reminder'}
           variant={'contained'}
-          fullWidth={'fullWidth'}
           color={'primary'}
           onClick={handleClick}
         />
@@ -117,7 +143,6 @@ const FormReminder = (props) => {
           variant={'contained'}
           title={'Cancel'}
           color={'secondary'}
-          fullWidth={'fullWidth'}
           onClick={handleCancelClick}
         />
       </form>

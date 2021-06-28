@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import {
-  GetFromFirestore,
-  SetIntoFirestore,
-} from '../../helper/Utils/dbService';
+import React, { useContext, useEffect, useState } from 'react';
 import { PrimarySearchAppBar } from '../AppBar';
 import { FormReminder } from '../Form';
 import { filterByDateTime } from '../../helper/Utils/filterByDateTime';
 import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
-import { nanoid } from 'nanoid';
 import { ReminderTabs } from '../Table';
-import moment from 'moment';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Modal from '@material-ui/core/Modal';
+import { GetFromFirestore } from '../../helper/Utils/dbService';
+import moment from 'moment';
+import { AuthContext } from '../../helper/AuthProvider/AuthProvider';
+import './style.scss';
+import firebase, { db } from '../../helper/Firebase/firebaseConfig';
+import { nanoid } from 'nanoid';
 import './style.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,36 +34,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
-  // Get data
+  let { currentUser } = useContext(AuthContext);
+  let userId = currentUser.uid;
+
+  // Get the data from firestore in RealTime
   const data = GetFromFirestore();
 
   // initial Form State Data
-  const initialFormState = [];
+  const initialState = [];
   data &&
     data.map((doc) => {
-      return initialFormState.push({
+      return initialState.push({
         id: doc.id,
         title: doc.title,
+        timestamp: doc.timestamp.toDate(),
         date: moment(doc.timestamp.toDate()).format('LL'),
         time: moment(doc.timestamp.toDate()).format('LT'),
-        timeStamp: doc.timestamp.toDate(),
       });
     });
-
-  console.log(typeof initialFormState, initialFormState);
+  console.log(initialState);
 
   // Setting state
-  const [allReminders, setAllReminders] = useState(initialFormState);
+  const [allReminders, setAllReminders] = useState(initialState);
   const [pastReminders, setPastReminder] = useState([]);
   const [upcomingReminders, setUpcomingReminders] = useState([]);
-  const [currentReminder, setCurrentReminder] = useState(initialFormState);
+  const [currentReminder, setCurrentReminder] = useState(initialState);
   const [editing, setEditing] = useState(false);
 
   // set initialState as allReminder
   useEffect(() => {
-    setAllReminders(initialFormState);
+    setAllReminders(initialState);
   }, []);
-  console.log(allReminders);
 
   // watcher for filter(past & future) the all the reminders
   useEffect(() => {
@@ -72,28 +73,70 @@ const Home = () => {
 
   // CRUD operations
   const addNewReminder = (reminder) => {
-    if (reminder.title && reminder.date && reminder.time) {
-      reminder.id = nanoid();
-      reminder.dateTimestamp = new Date().getTime();
-      setAllReminders([...allReminders, reminder]);
-
-      // TODO: react-hooks-call inside the function body error
-      // SetIntoFirestore(reminder.id, reminder, reminder.dateTimestamp);
+    console.log(reminder);
+    try {
+      if (currentUser) {
+        db.collection('users')
+          .doc(userId)
+          .collection('reminders')
+          .add({
+            id: nanoid(),
+            title: reminder.title,
+            timestamp: firebase.firestore.FieldValue.servertimestamp(),
+          })
+          .then(() => {
+            console.log('Document added succesfully!');
+          });
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 
-  const deleteOldReminder = (id) => {
+  const deleteOldReminder = async (id) => {
     setEditing(false);
-    setAllReminders(allReminders.filter((reminder) => reminder.id !== id));
+    try {
+      if (currentUser) {
+        const result = await db
+          .collection('users')
+          .doc(userId)
+          .collection('reminders')
+          .where('id', '==', id)
+          .get();
+        await result.forEach((element) => {
+          element.ref.delete();
+          console.log('Document successfully deleted!');
+        });
+      }
+    } catch (error) {
+      return;
+    }
   };
 
-  const updateOldReminder = (id, updatedReminder) => {
+  const updateOldReminder = async (id, updatedReminder) => {
     setEditing(false);
-    setAllReminders(
-      allReminders.map((reminder) =>
-        reminder.id === id ? updatedReminder : reminder
-      )
-    );
+    console.log(updatedReminder);
+    try {
+      if (currentUser) {
+        const result = await db
+          .collection('users')
+          .doc(userId)
+          .collection('reminders')
+          .where('id', '==', id)
+          .get();
+        await result.forEach((element) => {
+          element.ref.update({
+            title: updatedReminder.title,
+            date: updatedReminder.date,
+            time: updatedReminder.time,
+            timestamp: updatedReminder.timestamp,
+          });
+          console.log('Document Updated successfully!');
+        });
+      }
+    } catch (error) {
+      return;
+    }
   };
 
   const editRow = (reminder) => {
@@ -104,7 +147,7 @@ const Home = () => {
       title: reminder.title,
       date: reminder.date,
       time: reminder.time,
-      timeStamp: reminder.timeStamp,
+      timestamp: reminder.timestamp,
     });
   };
 
