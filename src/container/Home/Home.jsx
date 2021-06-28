@@ -39,18 +39,21 @@ const Home = () => {
 
   // initial Form State Data
   const initialFormState = [];
-  data.map((doc) => {
-    return initialFormState.push({
-      id: doc.id,
-      title: doc.title,
-      date: moment(doc.timestamp.toDate()).format('LL'),
-      time: moment(doc.timestamp.toDate()).format('LT'),
-      timeStamp: doc.timestamp.toDate(),
+  data &&
+    data.map((doc) => {
+      return initialFormState.push({
+        id: doc.id,
+        title: doc.title,
+        date: moment(doc.timestamp.toDate()).format('LL'),
+        time: moment(doc.timestamp.toDate()).format('LT'),
+        timeStamp: doc.timestamp.toDate(),
+      });
     });
-  });
+
+  console.log(typeof initialFormState, initialFormState);
 
   // Setting state
-  const [allReminders, setAllReminders] = useState([]);
+  const [allReminders, setAllReminders] = useState(initialFormState);
   const [pastReminders, setPastReminder] = useState([]);
   const [upcomingReminders, setUpcomingReminders] = useState([]);
   const [currentReminder, setCurrentReminder] = useState(initialFormState);
@@ -59,9 +62,7 @@ const Home = () => {
   // set initialState as allReminder
   useEffect(() => {
     setAllReminders(initialFormState);
-    console.log(allReminders);
   }, []);
-
   console.log(allReminders);
 
   // watcher for filter(past & future) the all the reminders
@@ -75,7 +76,9 @@ const Home = () => {
       reminder.id = nanoid();
       reminder.dateTimestamp = new Date().getTime();
       setAllReminders([...allReminders, reminder]);
-      SetIntoFirestore(reminder.id, reminder, reminder.dateTimestamp);
+
+      // TODO: react-hooks-call inside the function body error
+      // SetIntoFirestore(reminder.id, reminder, reminder.dateTimestamp);
     }
   };
 

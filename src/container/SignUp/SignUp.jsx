@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Link as RouteLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { StickyFooter } from '../Footer';
-import { SetNewUserIntoFireStore } from '../../helper/Utils/dbService';
+import { SetNewUserIntoFirestore } from '../../helper/Utils/dbService';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import firebaseConfig from '../../helper/firebase/firebaseConfig';
+import firebaseConfig from '../../helper/Firebase/firebaseConfig';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = ({ history }) => {
   const classes = useStyles();
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -50,8 +51,8 @@ const SignIn = ({ history }) => {
       try {
         await firebaseConfig
           .auth()
-          .createUserWithEmailAndPassword(email, password);
-        SetNewUserIntoFireStore();
+          .createUserWithEmailAndPassword(email, password)
+          .then(SetNewUserIntoFirestore(firstName, lastName, email));
         history.push('./home');
       } catch (err) {
         alert(err);
@@ -78,11 +79,33 @@ const SignIn = ({ history }) => {
                 margin='normal'
                 required
                 fullWidth
+                id='firstname'
+                label='First Name'
+                name='firstname'
+                autoComplete='firstname'
+                autoFocus
+                onChange={(event) => setFirstName(event.target.value)}
+              />
+              <TextField
+                variant='outlined'
+                margin='normal'
+                required
+                fullWidth
+                id='lastname'
+                label='Last Name'
+                name='lastname'
+                autoComplete='lastname'
+                onChange={(event) => setLastName(event.target.value)}
+              />
+              <TextField
+                variant='outlined'
+                margin='normal'
+                required
+                fullWidth
                 id='email'
                 label='Email Address'
                 name='email'
                 autoComplete='email'
-                autoFocus
                 onChange={(event) => setEmail(event.target.value)}
               />
               <TextField
@@ -125,7 +148,6 @@ const SignIn = ({ history }) => {
             </form>
           </div>
         </Container>
-        <StickyFooter />
       </div>
     </div>
   );

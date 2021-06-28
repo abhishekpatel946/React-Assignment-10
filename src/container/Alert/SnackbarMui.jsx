@@ -20,7 +20,7 @@ const SnackbarMui = (props) => {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={6000}
+      autoHideDuration={3000}
       onClose={handleClose}
       anchorOrigin={anchorOrigin}>
       <Alert onClose={handleClose} severity={severity}>

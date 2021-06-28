@@ -10,8 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Link as RouteLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { StickyFooter } from '../Footer';
-import firebaseConfig from '../../helper/firebase/firebaseConfig';
+import firebaseConfig from '../../helper/Firebase/firebaseConfig';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -102,7 +101,6 @@ const PasswordReset = () => {
           </form>
         </div>
       </Container>
-      <StickyFooter />
     </div>
   );
 };

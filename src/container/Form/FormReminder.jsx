@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
-import { TextFieldMui, ButtonMui } from '../Form-components';
+import { TextFieldMui, ButtonMui } from './Form-components';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -9,7 +9,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import '../Form-components/style.scss';
+import './Form-components/style.scss';
 
 const FormReminder = (props) => {
   // destructring props

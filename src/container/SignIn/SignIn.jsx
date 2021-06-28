@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { Redirect, Link as RouteLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { StickyFooter } from '../Footer';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import firebaseConfig from '../../helper/firebase/firebaseConfig';
+import firebaseConfig from '../../helper/Firebase/firebaseConfig';
 import { AuthContext } from '../../helper/AuthProvider/AuthProvider';
+import { SnackbarMui } from '../Alert';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +42,7 @@ const SignIn = ({ history }) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [success, setSuccess] = useState(null);
 
   // login with firebase
   const login = useCallback(
@@ -49,7 +50,9 @@ const SignIn = ({ history }) => {
       event.preventDefault();
       try {
         await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
+        setSuccess(true);
       } catch (err) {
+        setSuccess(false);
         alert(err);
       }
     },
@@ -126,7 +129,19 @@ const SignIn = ({ history }) => {
             </form>
           </div>
         </Container>
-        <StickyFooter />
+        {success ? (
+          <SnackbarMui
+            msg={'Login successfully..!'}
+            severity={'success'}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          />
+        ) : (
+          <SnackbarMui
+            msg={'Login failed..!'}
+            severity={'danger'}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import firebaseConfig from '../../helper/firebase/firebaseConfig';
+import firebaseConfig from '../../helper/Firebase/firebaseConfig';
 import logo from './../../logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';

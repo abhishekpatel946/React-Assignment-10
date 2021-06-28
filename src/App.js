@@ -2,7 +2,7 @@ import React from 'react';
 import { AuthProvider } from './helper/AuthProvider/AuthProvider';
 import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from './helper/PrivateRoute/PrivateRoute';
-import { SingIn } from './container/SingIn';
+import { SignIn } from './container/SignIn';
 import { SignUp } from './container/SignUp';
 import { PageNotFound } from './container/PageNotFound/';
 import { PasswordReset } from './container/PasswordReset';
@@ -16,7 +16,7 @@ const App = () => {
       <div className='App'>
         {/* routes */}
         <Switch>
-          <Route exact path='/' component={SingIn} />
+          <Route exact path='/' component={SignIn} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/password-reset' component={PasswordReset} />
           <PrivateRoute exact path='/home/' component={Home} />
