@@ -33,6 +33,6 @@ export function GetFromFirestore() {
     } catch (error) {
       return undefined;
     }
-  }, []);
+  }, [currentUser, userId]);
   return data;
 }

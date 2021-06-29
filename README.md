@@ -13,8 +13,7 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 
 ## Pending
 ```
-1. Login & SignUp with Router.
-2. Individual user has own remiders.
+1. Problem with useEffect to set allReminders. (NOTE: fetch data is work in realtime but not render in realtime)
 ```
 
 ## Images

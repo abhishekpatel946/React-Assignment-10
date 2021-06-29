@@ -45,31 +45,31 @@ const SignIn = ({ history }) => {
   const [password, setPassword] = useState('');
 
   // regiter with firebase
-  const register = useCallback(async (event) => {
-    event.preventDefault();
-    try {
-      await firebaseConfig
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
-      console.log(firebase.auth().currentUser.uid);
+  const register = useCallback(
+    async (event) => {
+      event.preventDefault();
       try {
-        db.collection('users')
-          .doc(firebase.auth().currentUser.uid)
-          .update({
-            firstname: firstName,
-            lastname: lastName,
-            email: email,
-            uid: firebase.auth().currentUser.uid,
-          })
-          .doc('reminders');
+        await firebaseConfig
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+        history.push('./home');
       } catch (err) {
         alert(err);
       }
-      history.push('./home');
-    } catch (err) {
-      alert(err);
-    }
-  }, []);
+      console.log(firebase.auth().currentUser.uid);
+      try {
+        db.collection('users').doc(firebase.auth().currentUser.uid).set({
+          firstname: firstName,
+          lastname: lastName,
+          email: email,
+          uid: firebase.auth().currentUser.uid,
+        });
+      } catch (err) {
+        alert(err);
+      }
+    },
+    [firstName, lastName, email, password, history]
+  );
 
   return (
     <div>
@@ -141,15 +141,8 @@ const SignIn = ({ history }) => {
               </Button>
               <Grid container>
                 <Grid item xs className={classes.grid}>
-                  <RouteLink to='/password-reset'>
-                    <Link href='#' variant='body2'>
-                      Forgot password?
-                    </Link>
-                  </RouteLink>
-                </Grid>
-                <Grid item className={classes.grid}>
                   <RouteLink to='/'>
-                    <Link href='#' variant='body2'>
+                    <Link style={{ textDecoration: 'none' }} variant='body2'>
                       Don't have an account? Sign In
                     </Link>
                   </RouteLink>

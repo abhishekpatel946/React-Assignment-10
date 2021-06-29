@@ -112,16 +112,16 @@ const SignIn = ({ history }) => {
               </Button>
               <Grid container>
                 <Grid item xs className={classes.grid}>
-                  <RouteLink to='/password-reset'>
-                    <Link href='#' variant='body2'>
-                      Forgot password?
+                  <RouteLink to='signup'>
+                    <Link style={{ textDecoration: 'none' }} variant='body2'>
+                      Don't have an account? Sign Up
                     </Link>
                   </RouteLink>
                 </Grid>
                 <Grid item className={classes.grid}>
-                  <RouteLink to='signup'>
-                    <Link href='#' variant='body2'>
-                      Don't have an account? Sign Up
+                  <RouteLink to='/password-reset'>
+                    <Link style={{ textDecoration: 'none' }} variant='body2'>
+                      Forgot password?
                     </Link>
                   </RouteLink>
                 </Grid>

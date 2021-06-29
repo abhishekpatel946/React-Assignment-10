@@ -11,7 +11,7 @@ import { GetFromFirestore } from '../../helper/Utils/dbService';
 import moment from 'moment';
 import { AuthContext } from '../../helper/AuthProvider/AuthProvider';
 import './style.scss';
-import firebase, { db } from '../../helper/Firebase/firebaseConfig';
+import { db } from '../../helper/Firebase/firebaseConfig';
 import { nanoid } from 'nanoid';
 import './style.scss';
 
@@ -82,7 +82,7 @@ const Home = () => {
           .add({
             id: nanoid(),
             title: reminder.title,
-            timestamp: firebase.firestore.FieldValue.servertimestamp(),
+            timestamp: reminder.timestamp,
           })
           .then(() => {
             console.log('Document added succesfully!');
