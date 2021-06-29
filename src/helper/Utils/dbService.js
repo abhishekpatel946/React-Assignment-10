@@ -9,7 +9,7 @@ const Context = () => {
 };
 
 // get the data from fireStore db
-export function GetFromFirestore() {
+export const GetFromFirestore = () => {
   const { userId, currentUser } = Context();
   const [data, setData] = useState([]);
 
@@ -35,4 +35,4 @@ export function GetFromFirestore() {
     }
   }, [currentUser, userId]);
   return data;
-}
+};

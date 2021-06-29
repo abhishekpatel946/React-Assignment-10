@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import firebaseConfig from '../../helper/Firebase/firebaseConfig';
-import logo from './../../logo.svg';
+import { Redirect } from 'react-router';
+import firebaseConfig from '../../../helper/Firebase/firebaseConfig';
+import logo from '.././../../logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -71,7 +72,7 @@ const PrimarySearchAppBar = (props) => {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
       transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -88,43 +89,35 @@ const PrimarySearchAppBar = (props) => {
       <AppBar position='static'>
         <Toolbar>
           <img src={logo} className='App-logo' alt='logo' />
-          <Typography className={classes.title} variant='h5' noWrap>
+          <Typography className={classes.title} variant='h5'>
             Reminder App
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Tooltip title='Add Reminder'>
-              <IconButton
-                edge='start'
-                aria-haspopup='true'
-                color='inherit'
-                onClick={props.handleOpen}>
+            <div style={{ margin: '12px' }}>
+              <Tooltip title='Add Reminder'>
                 <Fab
                   className={classes.margin}
                   size='small'
                   color='secondary'
-                  aria-label='add'>
+                  aria-label='add'
+                  onClick={props.handleOpen}>
                   <AddIcon className='add-icon' />
                 </Fab>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title='Profile'>
-              <IconButton
-                edge='end'
-                aria-label='account of current user'
-                aria-controls={menuId}
-                aria-haspopup='true'
-                onClick={handleProfileMenuOpen}
-                color='inherit'>
+              </Tooltip>
+            </div>
+            <div style={{ margin: '12px' }}>
+              <Tooltip title='Profile'>
                 <Fab
                   className={classes.margin}
                   size='small'
                   color='default'
-                  aria-label='add'>
+                  aria-label='add'
+                  onClick={handleProfileMenuOpen}>
                   <AccountCircle />
                 </Fab>
-              </IconButton>
-            </Tooltip>
+              </Tooltip>
+            </div>
           </div>
         </Toolbar>
       </AppBar>

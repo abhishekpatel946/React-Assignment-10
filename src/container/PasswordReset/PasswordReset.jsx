@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -92,9 +91,9 @@ const PasswordReset = () => {
             <Grid container>
               <Grid item>
                 <RouteLink to='/'>
-                  <Link href='#' variant='body2'>
-                    {'Back to Sign In page'}
-                  </Link>
+                  <span style={{ textDecoration: 'none' }}>
+                    Back to Sign In page
+                  </span>
                 </RouteLink>
               </Grid>
             </Grid>

@@ -5,7 +5,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -131,10 +130,10 @@ const SignIn = ({ history }) => {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <Button
-                type={'submit'}
-                variant={'contained'}
-                color={'primary'}
-                fullWidth={'fullWidth'}
+                type='submit'
+                variant='contained'
+                color='primary'
+                fullWidth
                 className={classes.submit}
                 onClick={register}>
                 Sign Up
@@ -142,9 +141,9 @@ const SignIn = ({ history }) => {
               <Grid container>
                 <Grid item xs className={classes.grid}>
                   <RouteLink to='/'>
-                    <Link style={{ textDecoration: 'none' }} variant='body2'>
+                    <span style={{ textDecoration: 'none' }}>
                       Don't have an account? Sign In
-                    </Link>
+                    </span>
                   </RouteLink>
                 </Grid>
               </Grid>

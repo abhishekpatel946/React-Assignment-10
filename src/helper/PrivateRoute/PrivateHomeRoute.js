@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 
-const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
+const PrivateHomeRoute = ({ component: RouteComponent, ...rest }) => {
   const { currentUser } = useContext(AuthContext);
 
   let userId;
@@ -24,4 +24,4 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
   );
 };
 
-export default PrivateRoute;
+export default PrivateHomeRoute;

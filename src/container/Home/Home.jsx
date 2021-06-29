@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { PrimarySearchAppBar } from '../AppBar';
+import { PrimarySearchAppBar } from './AppBar';
 import { FormReminder } from '../Form';
 import { filterByDateTime } from '../../helper/Utils/filterByDateTime';
 import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
 import { ReminderTabs } from '../Table';
-import CancelIcon from '@material-ui/icons/Cancel';
-import Modal from '@material-ui/core/Modal';
 import { GetFromFirestore } from '../../helper/Utils/dbService';
-import moment from 'moment';
 import { AuthContext } from '../../helper/AuthProvider/AuthProvider';
-import './style.scss';
 import { db } from '../../helper/Firebase/firebaseConfig';
 import { nanoid } from 'nanoid';
+import moment from 'moment';
+import Modal from '@material-ui/core/Modal';
+import CancelIcon from '@material-ui/icons/Cancel';
 import './style.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +51,7 @@ const Home = () => {
         time: moment(doc.timestamp.toDate()).format('LT'),
       });
     });
+  // TODO: data fetched here correctly!
   console.log(initialState);
 
   // Setting state
@@ -65,6 +65,7 @@ const Home = () => {
   useEffect(() => {
     setAllReminders(initialState);
   }, []);
+  // TODO: data not set after the rendering (atleast once render)
   console.log(allReminders);
 
   // watcher for filter(past & future) the all the reminders
@@ -73,11 +74,11 @@ const Home = () => {
   }, [allReminders]);
 
   // CRUD operations
-  const addNewReminder = (reminder) => {
-    console.log(reminder);
+  const addNewReminder = async (reminder) => {
     try {
       if (currentUser) {
-        db.collection('users')
+        await db
+          .collection('users')
           .doc(userId)
           .collection('reminders')
           .add({

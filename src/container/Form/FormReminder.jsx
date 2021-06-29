@@ -55,24 +55,6 @@ const FormReminder = (props) => {
     }
   };
 
-  // console.log(
-  //   moment(selectedDate).format('LL'),
-  //   '\n',
-  //   moment(selectedTime).format('LT'),
-  //   '\n',
-  //   moment(selectedTime, selectedDate).toDate()
-  // );
-
-  // console.log(newReminder);
-
-  // console.log(
-  //   newReminder.date,
-  //   '\n',
-  //   newReminder.time,
-  //   '\n',
-  //   newReminder.timestamp
-  // );
-
   const handleClick = (event) => {
     event.preventDefault();
     if (editing) {

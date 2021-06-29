@@ -58,34 +58,42 @@ const ReminderTable = (props) => {
         </Tabs>
       </AppBar>
 
-      {/* all reminders */}
-      <TabPanel value={value} index={0}>
-        <TableMui
-          reminders={allReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-          tableHeading={'All Reminders'}
-        />
-      </TabPanel>
+      <div className='my-outer-class'>
+        {/* all reminders */}
+        <TabPanel value={value} index={0}>
+          <div className='my-inner-class'>
+            <TableMui
+              reminders={allReminders}
+              editRow={editRow}
+              deleteOldReminder={deleteOldReminder}
+              tableHeading={'All Reminders'}
+            />
+          </div>
+        </TabPanel>
+      </div>
 
       {/* past reminders */}
       <TabPanel value={value} index={1}>
-        <TableMui
-          reminders={pastReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-          tableHeading={'Past Reminders'}
-        />
+        <div>
+          <TableMui
+            reminders={pastReminders}
+            editRow={editRow}
+            deleteOldReminder={deleteOldReminder}
+            tableHeading={'Past Reminders'}
+          />
+        </div>
       </TabPanel>
 
       {/* upcoming reminders */}
       <TabPanel value={value} index={2}>
-        <TableMui
-          reminders={upcomingReminders}
-          editRow={editRow}
-          deleteOldReminder={deleteOldReminder}
-          tableHeading={'Upcoming Reminders'}
-        />
+        <div>
+          <TableMui
+            reminders={upcomingReminders}
+            editRow={editRow}
+            deleteOldReminder={deleteOldReminder}
+            tableHeading={'Upcoming Reminders'}
+          />
+        </div>
       </TabPanel>
     </div>
   );

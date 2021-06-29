@@ -6,11 +6,10 @@ import { SignUp } from './container/SignUp';
 import { PageNotFound } from './container/PageNotFound/';
 import { PasswordReset } from './container/PasswordReset';
 import { Home } from './container/Home';
-import Spinner from 'react-spinner-material';
 import './App.scss';
 
-const PrivateRoute = React.lazy(() =>
-  import('./helper/PrivateRoute/PrivateRoute')
+const PrivateHomeRoute = React.lazy(() =>
+  import('./helper/PrivateRoute/PrivateHomeRoute')
 );
 
 const App = () => {
@@ -22,18 +21,8 @@ const App = () => {
           <Route exact path='/' component={SignIn} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/password-reset' component={PasswordReset} />
-          <Suspense
-            fallback={
-              <div>
-                <Spinner
-                  size={120}
-                  spinnerColor={'#F50057'}
-                  spinnerWidth={2}
-                  visible={true}
-                />
-              </div>
-            }>
-            <PrivateRoute exact path='/home/' component={Home} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <PrivateHomeRoute exact path='/home/' component={Home} />
           </Suspense>
           <Route exact component={PageNotFound} />
         </Switch>

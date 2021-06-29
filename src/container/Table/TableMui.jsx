@@ -47,7 +47,7 @@ const TableMui = (props) => {
       <TableContainer className='table-container' component={Paper}>
         <Table className={classes.table} aria-label='customized table'>
           <TableHead>
-            <TableRow className='thead'>
+            <TableRow className='thead' key='heading'>
               <StyledTableCell align='left'>{tableHeading}</StyledTableCell>
               <StyledTableCell align='center'>Date</StyledTableCell>
               <StyledTableCell align='center'>Time</StyledTableCell>
@@ -58,7 +58,7 @@ const TableMui = (props) => {
             {reminders && reminders.length > 0 ? (
               reminders.map((reminder) => (
                 <StyledTableRow key={reminder.id}>
-                  <StyledTableCell component='th' scope='row'>
+                  <StyledTableCell component='td' scope='row'>
                     {reminder.title}
                   </StyledTableCell>
                   <StyledTableCell align='center'>
@@ -90,7 +90,7 @@ const TableMui = (props) => {
                 </StyledTableRow>
               ))
             ) : (
-              <StyledTableCell align='center'>
+              <StyledTableCell component='td' align='center'>
                 No Reminder left.
               </StyledTableCell>
             )}
