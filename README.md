@@ -18,11 +18,17 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 
 ## Images
 
-**Updated Reminder App**
-![image](./src/assets/updated-reminder-app.png)
+**Sign In**
+![image](./src/assets/login.png)
 
-**Add Reminders**
-![image](./src/assets/add-reminders.png)
+**Sign Up**
+![image](./src/assets/register.png)
 
-**Update Reminders**
-![image](./src/assets/delete-reminders.png)
+**Forgot Password**
+![image](./src/assets/forgot-password.png)
+
+**Home Landing Page**
+![image](./src/assets/home-1.png)
+
+**Home Profile Section**
+![image](./src/assets/home-2.png)

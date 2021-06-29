@@ -52,7 +52,7 @@ const Home = () => {
         time: moment(doc.timestamp.toDate()).format('LT'),
       });
     });
-  // console.log(initialState);
+  console.log(initialState);
 
   // Setting state
   const [allReminders, setAllReminders] = useState(initialState);
