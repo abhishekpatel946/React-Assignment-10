@@ -31,7 +31,7 @@ export function GetFromFirestore() {
           });
       }
     } catch (error) {
-      return undefined;
+      return;
     }
   }, [currentUser, userId]);
   return data;

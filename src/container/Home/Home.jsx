@@ -52,7 +52,7 @@ const Home = () => {
         time: moment(doc.timestamp.toDate()).format('LT'),
       });
     });
-  console.log(initialState);
+  // console.log(initialState);
 
   // Setting state
   const [allReminders, setAllReminders] = useState(initialState);
@@ -65,6 +65,7 @@ const Home = () => {
   useEffect(() => {
     setAllReminders(initialState);
   }, []);
+  console.log(allReminders);
 
   // watcher for filter(past & future) the all the reminders
   useEffect(() => {
