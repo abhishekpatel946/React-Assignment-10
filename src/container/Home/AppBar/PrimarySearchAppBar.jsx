@@ -1,66 +1,42 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router';
 import firebaseConfig from '../../../helper/Firebase/firebaseConfig';
 import logo from '.././../../logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
+  root: {
     flexGrow: 1,
+    color: 'transparent',
   },
   menuButton: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(0),
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    marginRight: '10px',
-    tabSize: '10px',
-    [theme.breakpoints.up('lg')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('lg')]: {
-      display: 'none',
-    },
+    flexGrow: 1,
   },
 }));
 
 const PrimarySearchAppBar = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleProfileMenuOpen = (event) => {
+  const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
+  const handleClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const logout = (event) => {
@@ -68,60 +44,64 @@ const PrimarySearchAppBar = (props) => {
     firebaseConfig.auth().signOut();
   };
 
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}>
-      <MenuItem>Profile</MenuItem>
-      <MenuItem>Account Settings</MenuItem>
-      <MenuItem onClick={logout}>Logout</MenuItem>
-    </Menu>
-  );
-
   return (
-    <div className={classes.grow}>
+    <div className={classes.root}>
       <AppBar position='static'>
         <Toolbar>
-          <img src={logo} className='App-logo' alt='logo' />
-          <Typography className={classes.title} variant='h5'>
+          <IconButton
+            edge='start'
+            className={classes.menuButton}
+            color='inherit'
+            aria-label='menu'>
+            <img src={logo} className='App-logo' alt='logo' />
+          </IconButton>
+          <Typography variant='h5' className={classes.title}>
             Reminder App
           </Typography>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <div style={{ margin: '12px' }}>
-              <Tooltip title='Add Reminder'>
-                <Fab
-                  className={classes.margin}
-                  size='small'
-                  color='secondary'
-                  aria-label='add'
-                  onClick={props.handleOpen}>
-                  <AddIcon className='add-icon' />
-                </Fab>
-              </Tooltip>
-            </div>
-            <div style={{ margin: '12px' }}>
-              <Tooltip title='Profile'>
-                <Fab
-                  className={classes.margin}
-                  size='small'
-                  color='default'
-                  aria-label='add'
-                  onClick={handleProfileMenuOpen}>
-                  <AccountCircle />
-                </Fab>
-              </Tooltip>
-            </div>
+          <div>
+            <Tooltip title='Add Reminder' style={{ margin: '10px' }}>
+              <Fab
+                className={classes.margin}
+                size='small'
+                color='secondary'
+                aria-label='add'
+                onClick={props.handleOpen}>
+                <AddIcon className='add-icon' />
+              </Fab>
+            </Tooltip>
+            <Tooltip title='Profile' style={{ margin: '10px' }}>
+              <Fab
+                className={classes.margin}
+                size='small'
+                color='default'
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                onClick={handleMenu}>
+                <AccountCircle />
+              </Fab>
+            </Tooltip>
+            <Menu
+              id='menu-appbar'
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={handleClose}>
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={logout}>Logout</MenuItem>
+            </Menu>
           </div>
         </Toolbar>
       </AppBar>
-      {renderMenu}
     </div>
   );
 };

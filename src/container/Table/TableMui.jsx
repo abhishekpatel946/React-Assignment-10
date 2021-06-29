@@ -90,9 +90,11 @@ const TableMui = (props) => {
                 </StyledTableRow>
               ))
             ) : (
-              <StyledTableCell component='td' align='center'>
-                No Reminder left.
-              </StyledTableCell>
+              <StyledTableRow>
+                <StyledTableCell component='td' align='center'>
+                  No Reminder left.
+                </StyledTableCell>
+              </StyledTableRow>
             )}
           </TableBody>
         </Table>

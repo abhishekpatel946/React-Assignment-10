@@ -1,4 +1,3 @@
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 export function TabPanel(props) {
@@ -11,11 +10,7 @@ export function TabPanel(props) {
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}>
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
