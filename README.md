@@ -13,7 +13,16 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 
 ## Pending
 ```
-1. Problem with useEffect to set allReminders. (NOTE: fetch data is work in realtime but not render in realtime)
+1. Implement the whole thing with Redux-toolkit & Redux-saga & Redux-logger.
+```
+
+## DataFlow
+```
+1. Data fetch through the API and store the data using dispatching.
+2. Every time get updated data from API, store in the redux-store.
+3. Use the redux state to display the data whenever we use.
+4. Redux-logger to watch each & every moment inside the redux.
+5. Redux-saga to flow the data btw the redux-state and recieved from API call.
 ```
 
 ## Images
