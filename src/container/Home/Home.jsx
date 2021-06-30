@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { PrimarySearchAppBar } from './AppBar';
 import { FormReminder } from '../Form';
 import { filterByDateTime } from '../../helper/Utils/filterByDateTime';
 import { getModalStyle } from './getModalStyle';
 import { makeStyles } from '@material-ui/core/styles';
 import { ReminderTabs } from '../Table';
-import { GetFromFirestore } from '../../helper/Utils/dbService';
-import { AuthContext } from '../../helper/AuthProvider/AuthProvider';
-import { db } from '../../helper/Firebase/firebaseConfig';
-import { nanoid } from 'nanoid';
-import moment from 'moment';
 import Modal from '@material-ui/core/Modal';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './style.scss';
+import {
+  setReminder,
+  updateReminder,
+  deleteReminder,
+} from '../../helper/Redux/slices/reminderSlice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,40 +34,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
-  let { currentUser } = useContext(AuthContext);
-  let userId = currentUser.uid;
-
-  // Get the data from firestore in RealTime
-  const data = GetFromFirestore();
-
-  // initial Form State Data
-  const initialState = [];
-  data &&
-    data.map((doc) => {
-      return initialState.push({
-        id: doc.id,
-        title: doc.title,
-        timestamp: doc.timestamp.toDate(),
-        date: moment(doc.timestamp.toDate()).format('LL'),
-        time: moment(doc.timestamp.toDate()).format('LT'),
-      });
-    });
-  // TODO: data fetched here correctly!
-  console.log(initialState);
+  // Get the from Redux-state using distapching
+  const dispatch = useDispatch();
+  const getResultState = useSelector((state) => state.reminder);
+  console.log(typeof getResultState, getResultState);
 
   // Setting state
-  const [allReminders, setAllReminders] = useState(initialState);
+  const [allReminders, setAllReminders] = useState(getResultState);
   const [pastReminders, setPastReminder] = useState([]);
   const [upcomingReminders, setUpcomingReminders] = useState([]);
-  const [currentReminder, setCurrentReminder] = useState(initialState);
+  const [currentReminder, setCurrentReminder] = useState(getResultState);
   const [editing, setEditing] = useState(false);
-
-  // set initialState as allReminder
-  useEffect(() => {
-    setAllReminders(initialState);
-  }, []);
-  // TODO: data not set after the rendering (atleast once render)
-  console.log(allReminders);
 
   // watcher for filter(past & future) the all the reminders
   useEffect(() => {
@@ -74,71 +52,21 @@ const Home = () => {
   }, [allReminders]);
 
   // CRUD operations
-  const addNewReminder = async (reminder) => {
-    try {
-      if (currentUser) {
-        await db
-          .collection('users')
-          .doc(userId)
-          .collection('reminders')
-          .add({
-            id: nanoid(),
-            title: reminder.title,
-            timestamp: reminder.timestamp,
-          })
-          .then(() => {
-            console.log('Document added succesfully!');
-          });
-      }
-    } catch (error) {
-      alert(error);
-    }
+  const addNewReminder = (reminder) => {
+    // dispatch the SET_REMINDER
+    dispatch(setReminder(reminder));
   };
 
-  const deleteOldReminder = async (id) => {
+  const deleteOldReminder = (id) => {
     setEditing(false);
-    try {
-      if (currentUser) {
-        const result = await db
-          .collection('users')
-          .doc(userId)
-          .collection('reminders')
-          .where('id', '==', id)
-          .get();
-        await result.forEach((element) => {
-          element.ref.delete();
-          console.log('Document successfully deleted!');
-        });
-      }
-    } catch (error) {
-      return;
-    }
+    // dispatch the DELETE_REMINDER
+    dispatch(deleteReminder(id));
   };
 
-  const updateOldReminder = async (id, updatedReminder) => {
+  const updateOldReminder = (id, updatedReminder) => {
     setEditing(false);
-    console.log(updatedReminder);
-    try {
-      if (currentUser) {
-        const result = await db
-          .collection('users')
-          .doc(userId)
-          .collection('reminders')
-          .where('id', '==', id)
-          .get();
-        await result.forEach((element) => {
-          element.ref.update({
-            title: updatedReminder.title,
-            date: updatedReminder.date,
-            time: updatedReminder.time,
-            timestamp: updatedReminder.timestamp,
-          });
-          console.log('Document Updated successfully!');
-        });
-      }
-    } catch (error) {
-      return;
-    }
+    // dispatch the UPDATE_REMINDER
+    dispatch(updateReminder(id, updatedReminder));
   };
 
   const editRow = (reminder) => {
