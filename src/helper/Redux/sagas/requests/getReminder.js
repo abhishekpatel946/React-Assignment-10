@@ -18,7 +18,7 @@ const RequestGetReminder = () => {
       });
     });
 
-  console.log(`request: `);
+  console.log(`request: initialState =>>`, initialState);
   return initialState;
 };
 
