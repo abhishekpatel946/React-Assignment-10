@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import firebaseConfig from '../../helper/Firebase/firebaseConfig';
+import { firebase } from '../../helper/Firebase/firebase';
 import { AuthContext } from '../../helper/AuthProvider/AuthProvider';
 import { SnackbarMui } from '../Alert';
 
@@ -48,7 +48,7 @@ const SignIn = ({ history }) => {
     async (event) => {
       event.preventDefault();
       try {
-        await firebaseConfig.auth().signInWithEmailAndPassword(email, password);
+        await firebase.auth().signInWithEmailAndPassword(email, password);
         setSuccess(true);
       } catch (err) {
         setSuccess(false);

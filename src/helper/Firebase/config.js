@@ -1,8 +1,4 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-
-const firebaseConfig = {
+const config = {
   apiKey: 'AIzaSyBvPM1zymHn8xT2bwOb6Bg4qOJwU4uRmOk',
   authDomain: 'reminder-app-fd4ef.firebaseapp.com',
   projectId: 'reminder-app-fd4ef',
@@ -12,8 +8,4 @@ const firebaseConfig = {
   measurementId: 'G-LSLWZ1ZJ6S',
 };
 
-firebase.initializeApp(firebaseConfig);
-
-export const auth = firebase.auth();
-export const db = firebase.firestore();
-export default firebase;
+export default config;

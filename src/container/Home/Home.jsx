@@ -11,8 +11,9 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import './style.scss';
 import {
   setReminder,
-  updateReminder,
-  deleteReminder,
+  setDeleteReminder,
+  setUpdateReminder,
+  getReminder,
 } from '../../helper/Redux/slices/reminderSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,8 +37,11 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   // Get the from Redux-state using distapching
   const dispatch = useDispatch();
+
+  // getReminder dispatch
+  dispatch(getReminder());
+
   const getResultState = useSelector((state) => state.reminder);
-  console.log(typeof getResultState, getResultState);
 
   // Setting state
   const [allReminders, setAllReminders] = useState(getResultState);
@@ -45,6 +49,13 @@ const Home = () => {
   const [upcomingReminders, setUpcomingReminders] = useState([]);
   const [currentReminder, setCurrentReminder] = useState(getResultState);
   const [editing, setEditing] = useState(false);
+
+  // set the allReminders state using redux
+  useEffect(() => {
+    setAllReminders(getResultState);
+  }, [getResultState]);
+
+  console.log(typeof allReminders, allReminders);
 
   // watcher for filter(past & future) the all the reminders
   useEffect(() => {
@@ -60,13 +71,13 @@ const Home = () => {
   const deleteOldReminder = (id) => {
     setEditing(false);
     // dispatch the DELETE_REMINDER
-    dispatch(deleteReminder(id));
+    dispatch(setDeleteReminder(id));
   };
 
   const updateOldReminder = (id, updatedReminder) => {
     setEditing(false);
     // dispatch the UPDATE_REMINDER
-    dispatch(updateReminder(id, updatedReminder));
+    dispatch(setUpdateReminder(id, updatedReminder));
   };
 
   const editRow = (reminder) => {

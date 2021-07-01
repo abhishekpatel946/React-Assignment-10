@@ -1,12 +1,11 @@
 import { call, put } from 'redux-saga/effects';
 import { setReminder } from '../../slices/reminderSlice';
-import RequestGetReminder from '../requests/reminder';
+import RequestSetReminder from '../requests/setReminder';
 
-export function* handleGetReminder(action) {
+export function* handleSetReminder(action) {
   try {
-    const response = yield call(RequestGetReminder);
+    const response = yield call(RequestSetReminder);
     console.log(response);
-    debugger;
 
     const { data } = response;
     yield put(setReminder({ ...data }));

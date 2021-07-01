@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import firebaseConfig from '../../../helper/Firebase/firebaseConfig';
+import { firebase } from '../../../helper/Firebase/firebase';
 import logo from '.././../../logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -41,7 +41,7 @@ const PrimarySearchAppBar = (props) => {
 
   const logout = (event) => {
     event.preventDefault();
-    firebaseConfig.auth().signOut();
+    firebase.auth().signOut();
   };
 
   return (

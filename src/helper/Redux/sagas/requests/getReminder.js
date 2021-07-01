@@ -4,8 +4,6 @@ import moment from 'moment';
 const RequestGetReminder = () => {
   // Get the data from firestore in RealTime
   const data = GetFromFirestore();
-  console.log(data);
-  debugger;
 
   // initial reminder State Data
   const initialState = [];
@@ -19,9 +17,8 @@ const RequestGetReminder = () => {
         time: moment(doc.timestamp.toDate()).format('LT'),
       });
     });
-  console.log(initialState);
-  debugger;
 
+  console.log(`request: `);
   return initialState;
 };
 

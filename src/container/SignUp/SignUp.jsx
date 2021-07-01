@@ -9,8 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import firebaseConfig, { db } from '../../helper/Firebase/firebaseConfig';
-import firebase from 'firebase/app';
+import { firebase, db } from '../../helper/Firebase/firebase';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,14 +47,12 @@ const SignIn = ({ history }) => {
     async (event) => {
       event.preventDefault();
       try {
-        await firebaseConfig
-          .auth()
-          .createUserWithEmailAndPassword(email, password);
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
         history.push('./home');
       } catch (err) {
         alert(err);
       }
-      console.log(firebase.auth().currentUser.uid);
+
       try {
         db.collection('users').doc(firebase.auth().currentUser.uid).set({
           firstname: firstName,

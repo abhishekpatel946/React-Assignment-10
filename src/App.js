@@ -21,7 +21,7 @@ const App = () => {
           <Route exact path='/' component={SignIn} />
           <Route exact path='/signup' component={SignUp} />
           <Route exact path='/password-reset' component={PasswordReset} />
-          <Suspense fallback={<div>Setup few things.</div>}>
+          <Suspense fallback={<div>Loading...</div>}>
             <PrivateHomeRoute exact path='/home/' component={Home} />
           </Suspense>
           <Route exact component={PageNotFound} />
