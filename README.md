@@ -25,6 +25,113 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 5. Redux-saga to flow the data btw the redux-state and recieved from API call.
 ```
 
+## Folder Structure
+```
+.
+├── package.json
+├── package-lock.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── README.md
+└── src
+    ├── App.js
+    ├── App.scss
+    ├── assets
+    │   ├── forgot-password.png
+    │   ├── home-1.png
+    │   ├── home-2.png
+    │   ├── login.png
+    │   └── register.png
+    ├── container
+    │   ├── Alert
+    │   │   ├── Alert.jsx
+    │   │   ├── index.js
+    │   │   └── SnackbarMui.jsx
+    │   ├── Form
+    │   │   ├── Form-components
+    │   │   │   ├── ButtonMui.jsx
+    │   │   │   ├── index.js
+    │   │   │   ├── style.scss
+    │   │   │   └── TextFieldMui.jsx
+    │   │   ├── FormReminder.jsx
+    │   │   └── index.js
+    │   ├── Home
+    │   │   ├── AppBar
+    │   │   │   ├── index.js
+    │   │   │   └── PrimarySearchAppBar.jsx
+    │   │   ├── getModalStyle.js
+    │   │   ├── Home.jsx
+    │   │   ├── index.js
+    │   │   ├── Profile
+    │   │   │   ├── index.js
+    │   │   │   └── Profile.jsx
+    │   │   ├── rand.js
+    │   │   └── style.scss
+    │   ├── PageNotFound
+    │   │   ├── index.js
+    │   │   ├── page-404.png
+    │   │   ├── PageNotFound.jsx
+    │   │   └── style.scss
+    │   ├── PasswordReset
+    │   │   ├── index.js
+    │   │   └── PasswordReset.jsx
+    │   ├── SignIn
+    │   │   ├── index.js
+    │   │   └── SignIn.jsx
+    │   ├── SignUp
+    │   │   ├── index.js
+    │   │   └── SignUp.jsx
+    │   └── Table
+    │       ├── allTabProps.jsx
+    │       ├── index.js
+    │       ├── ReminderTabs.jsx
+    │       ├── style.scss
+    │       ├── TableMui.jsx
+    │       └── TabPanel.jsx
+    ├── helper
+    │   ├── AuthProvider
+    │   │   └── AuthProvider.js
+    │   ├── Firebase
+    │   │   ├── config.js
+    │   │   └── firebase.js
+    │   ├── PrivateRoute
+    │   │   ├── PrivateHomeRoute.js
+    │   │   └── PrivateProfileRoute.js
+    │   ├── Redux
+    │   │   ├── actions
+    │   │   │   └── reminder.action.js
+    │   │   ├── reducers
+    │   │   │   ├── reminder
+    │   │   │   │   └── reminder.reducer.js
+    │   │   │   └── rootReducer.js
+    │   │   ├── sagas
+    │   │   │   ├── reminder
+    │   │   │   │   └── reminder.saga.js
+    │   │   │   └── rootSaga.js
+    │   │   ├── service
+    │   │   │   └── reminders.service.js
+    │   │   ├── store
+    │   │   │   └── store.js
+    │   │   └── types
+    │   │       └── reminder.types.js
+    │   └── Utils
+    │       ├── dbService.js
+    │       └── filterByDateTime.js
+    ├── index.css
+    ├── index.js
+    ├── logo.svg
+    ├── reportWebVitals.js
+    └── scss
+        ├── _colorStack.scss
+        └── _fontStack.scss
+
+```
+
 ## Images
 
 **Sign In**

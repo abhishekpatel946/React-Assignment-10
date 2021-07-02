@@ -9,12 +9,7 @@ import { ReminderTabs } from '../Table';
 import Modal from '@material-ui/core/Modal';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './style.scss';
-import {
-  setReminder,
-  setDeleteReminder,
-  setUpdateReminder,
-  getReminder,
-} from '../../helper/Redux/slices/reminderSlice';
+import { fetchReminder } from '../../helper/Redux/actions/reminder.action';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,25 +30,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
+  // TODO:
   // Get the from Redux-state using distapching
   const dispatch = useDispatch();
+  const fetchedReminders = dispatch(fetchReminder());
+  console.log(fetchedReminders);
 
+  // TODO:
   // getReminder dispatch
-  dispatch(getReminder());
-
-  const getResultState = useSelector((state) => state.reminder);
+  const getResultReminders = useSelector((state) => state.getResultReminders);
+  console.log(getResultReminders);
 
   // Setting state
-  const [allReminders, setAllReminders] = useState(getResultState);
+  const [allReminders, setAllReminders] = useState([]);
   const [pastReminders, setPastReminder] = useState([]);
   const [upcomingReminders, setUpcomingReminders] = useState([]);
-  const [currentReminder, setCurrentReminder] = useState(getResultState);
+  const [currentReminder, setCurrentReminder] = useState([]);
   const [editing, setEditing] = useState(false);
 
   // set the allReminders state using redux
   useEffect(() => {
-    setAllReminders(getResultState);
-  }, [getResultState]);
+    setAllReminders([]);
+  }, []);
 
   console.log(typeof allReminders, allReminders);
 
@@ -64,20 +62,17 @@ const Home = () => {
 
   // CRUD operations
   const addNewReminder = (reminder) => {
-    // dispatch the SET_REMINDER
-    dispatch(setReminder(reminder));
+    //TODO: dispatch the SET_REMINDER
   };
 
   const deleteOldReminder = (id) => {
     setEditing(false);
-    // dispatch the DELETE_REMINDER
-    dispatch(setDeleteReminder(id));
+    //TODO: dispatch the DELETE_REMINDER
   };
 
   const updateOldReminder = (id, updatedReminder) => {
     setEditing(false);
-    // dispatch the UPDATE_REMINDER
-    dispatch(setUpdateReminder(id, updatedReminder));
+    //TODO: dispatch the UPDATE_REMINDER
   };
 
   const editRow = (reminder) => {

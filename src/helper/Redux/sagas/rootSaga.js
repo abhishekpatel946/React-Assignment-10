@@ -1,20 +1,6 @@
-import { takeLatest } from 'redux-saga/effects';
-import {
-  getReminder,
-  setReminder,
-  setDeleteReminder,
-  setUpdateReminder,
-} from '../slices/reminderSlice';
-import {
-  handleGetReminder,
-  handleSetReminder,
-  handleDeleteReminder,
-  handleUpdateReminder,
-} from './handlers';
+import { all } from '@redux-saga/core/effects';
+import { waitForFetchReminders } from './reminder/reminder.saga';
 
-export function* watcherSaga() {
-  yield takeLatest(getReminder.type, handleGetReminder);
-  yield takeLatest(setReminder.type, handleSetReminder);
-  yield takeLatest(setDeleteReminder.type, handleDeleteReminder);
-  yield takeLatest(setUpdateReminder.type, handleUpdateReminder);
+export default function* rootSaga() {
+  yield all([waitForFetchReminders()]);
 }
