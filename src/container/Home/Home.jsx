@@ -34,12 +34,12 @@ const Home = () => {
   // Get the from Redux-state using distapching
   const dispatch = useDispatch();
   const fetchedReminders = dispatch(fetchReminder());
-  console.log(fetchedReminders);
+  // console.log(fetchedReminders);
 
   // TODO:
   // getReminder dispatch
   const getResultReminders = useSelector((state) => state.getResultReminders);
-  console.log(getResultReminders);
+  // console.log(getResultReminders);
 
   // Setting state
   const [allReminders, setAllReminders] = useState([]);
@@ -52,8 +52,6 @@ const Home = () => {
   useEffect(() => {
     setAllReminders([]);
   }, []);
-
-  console.log(typeof allReminders, allReminders);
 
   // watcher for filter(past & future) the all the reminders
   useEffect(() => {

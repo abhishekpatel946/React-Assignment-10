@@ -10,7 +10,7 @@ export const reminderInitialState = [];
 const reminderReducer = (state = reminderInitialState, action) => {
   switch (action.type) {
     case FETCH_REMINDER:
-      return state;
+      return [...state];
     case SET_REMINDER:
       return [...action.payload];
     case DELETE_REMINDER:

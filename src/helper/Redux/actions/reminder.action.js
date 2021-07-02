@@ -6,9 +6,28 @@ import {
 } from '../types/reminder.types';
 
 //TODO: fetch reminders
-export const fetchReminder = () => {
+export const fetchReminder = (reminders = null) => {
   return {
     type: FETCH_REMINDER,
+    payload: {
+      reminders,
+    },
+  };
+};
+export const fetchReminderSucess = (status = false) => {
+  return {
+    type: FETCH_REMINDER,
+    payload: {
+      status: true,
+    },
+  };
+};
+export const fetchReminderFailure = (status = false) => {
+  return {
+    type: FETCH_REMINDER,
+    payload: {
+      status: true,
+    },
   };
 };
 
@@ -22,6 +41,22 @@ export const setReminder = (reminders = null) => {
       },
     };
   }
+};
+export const setReminderSuccess = (status = false) => {
+  return {
+    type: SET_REMINDER,
+    payload: {
+      status: true,
+    },
+  };
+};
+export const setReminderFailure = (status = false) => {
+  return {
+    type: SET_REMINDER,
+    payload: {
+      status: true,
+    },
+  };
 };
 
 //TODO: delete reminders
