@@ -1,84 +1,146 @@
 import {
-  DELETE_REMINDER,
-  FETCH_REMINDER,
-  SET_REMINDER,
-  UPDATE_REMINDER,
-} from '../types/reminder.types';
+  FETCH_reminders,
+  FETCH_reminders_SUCCESS,
+  FETCH_reminders_FAILURE,
+  SET_reminders,
+  SET_reminders_SUCCESS,
+  SET_reminders_FAILURE,
+  DELETE_reminders,
+  DELETE_reminders_SUCCESS,
+  DELETE_reminders_FAILURE,
+  UPDATE_reminders,
+  UPDATE_reminders_SUCCESS,
+  UPDATE_reminders_FAILURE,
+} from '../types/reminders.types';
 
-//TODO: fetch reminders
-export const fetchReminder = (reminders = null) => {
+//TODO: fetch reminderss
+export const fetchreminders = (reminderss = null) => {
   return {
-    type: FETCH_REMINDER,
+    type: FETCH_reminders,
     payload: {
-      reminders,
-    },
-  };
-};
-export const fetchReminderSucess = (status = false) => {
-  return {
-    type: FETCH_REMINDER,
-    payload: {
-      status: true,
-    },
-  };
-};
-export const fetchReminderFailure = (status = false) => {
-  return {
-    type: FETCH_REMINDER,
-    payload: {
-      status: true,
+      reminderss,
     },
   };
 };
 
-//TODO: set reminders
-export const setReminder = (reminders = null) => {
-  if (reminders) {
+export const fetchremindersSucess = (reminderss = null) => {
+  return {
+    type: FETCH_reminders_SUCCESS,
+    payload: {
+      reminderss,
+    },
+  };
+};
+
+export const fetchremindersFailure = (reminderss = null) => {
+  return {
+    type: FETCH_reminders_FAILURE,
+    payload: {
+      reminderss,
+    },
+  };
+};
+
+//TODO: set reminderss
+export const setreminders = (reminderss = null) => {
+  if (reminderss) {
     return {
-      type: SET_REMINDER,
+      type: SET_reminders,
       payload: {
+        reminderss,
+      },
+    };
+  }
+};
+
+export const setremindersSuccess = (reminderss = null) => {
+  if (reminderss) {
+    return {
+      type: SET_reminders_SUCCESS,
+      payload: {
+        reminderss,
+      },
+    };
+  }
+};
+
+export const setremindersFailure = (reminderss = null) => {
+  if (reminderss) {
+    return {
+      type: SET_reminders_FAILURE,
+      payload: {
+        reminderss,
+      },
+    };
+  }
+};
+
+//TODO: delete reminderss
+export const deletereminders = (id = null) => {
+  if (id) {
+    return {
+      type: DELETE_reminders,
+      payload: {
+        id,
+      },
+    };
+  }
+};
+
+export const deleteremindersSucess = (id = null) => {
+  if (id) {
+    return {
+      type: DELETE_reminders_SUCCESS,
+      payload: {
+        id,
+      },
+    };
+  }
+};
+
+export const deleteremindersFailure = (id = null) => {
+  if (id) {
+    return {
+      type: DELETE_reminders_FAILURE,
+      payload: {
+        id,
+      },
+    };
+  }
+};
+
+//TODO: update reminderss
+export const updatereminders = (id = null, reminders = null) => {
+  if (id && reminders) {
+    return {
+      type: UPDATE_reminders,
+      payload: {
+        id,
         reminders,
       },
     };
   }
 };
-export const setReminderSuccess = (status = false) => {
-  return {
-    type: SET_REMINDER,
-    payload: {
-      status: true,
-    },
-  };
-};
-export const setReminderFailure = (status = false) => {
-  return {
-    type: SET_REMINDER,
-    payload: {
-      status: true,
-    },
-  };
-};
 
-//TODO: delete reminders
-export const deleteReminder = (id = null) => {
-  if (id) {
+export const updateremindersSucess = (id = null, reminders = null) => {
+  if (id && reminders) {
     return {
-      type: DELETE_REMINDER,
+      type: UPDATE_reminders_SUCCESS,
       payload: {
         id,
+        reminders,
       },
     };
   }
 };
 
-//TODO: update reminders
-export const updateReminder = (id = null, reminder = null) => {
-  if (id && reminder) {
+export const updateremindersFailure = (id = null, reminders = null) => {
+  if (id && reminders) {
     return {
-      type: UPDATE_REMINDER,
+      type: UPDATE_reminders_FAILURE,
       payload: {
         id,
-        reminder,
+        reminders,
       },
     };
   }

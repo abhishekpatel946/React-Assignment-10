@@ -25,6 +25,7 @@ function* fetchReminder() {
     resultDoc
       .then((data) => {
         console.log(`resultDoc =>> ${resultDoc}`); // resultDoc =>> [object Promise]
+
         console.log(`data =>> ${data}`);
         // data =>> function () {
         //   i.Zl(), r.cs.ws(function () {
