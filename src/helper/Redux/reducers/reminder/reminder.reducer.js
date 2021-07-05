@@ -1,86 +1,61 @@
 import {
   FETCH_REMINDER,
-  FETCH_REMINDER_SUCCESS,
-  FETCH_REMINDER_FAILURE,
   SET_REMINDER,
-  SET_REMINDER_SUCCESS,
-  SET_REMINDER_FAILURE,
   DELETE_REMINDER,
-  DELETE_REMINDER_SUCCESS,
-  DELETE_REMINDER_FAILURE,
   UPDATE_REMINDER,
-  UPDATE_REMINDER_SUCCESS,
-  UPDATE_REMINDER_FAILURE,
 } from '../../types/reminder.types';
 
-export const reminderInitialState = [
-  {
-    isLoading: false,
-    data: null,
-    error: null,
-  },
-];
+export const reminderInitialState = {
+  // TODO: fetchReminder using watcher-saga from firestore
+  reminders: [
+    {
+      id: '',
+      title: '',
+      timestamp: new Date(),
+    },
+  ],
+};
 
 const reminderReducer = (state = reminderInitialState, action) => {
   switch (action.type) {
     case FETCH_REMINDER:
+      return {
+        ...state,
+        reminders: { ...action.reminders },
+      };
     case SET_REMINDER:
-    case DELETE_REMINDER:
-    case UPDATE_REMINDER:
+      const { id, title, timestamp } = action.payload;
+      // TODO: setQuery
       return {
         ...state,
-        isLoading: true,
-        data: null,
-        error: null,
+        reminders: [
+          ...state.reminder,
+          {
+            id: id,
+            title: title,
+            timestamp: timestamp,
+          },
+        ],
       };
-
-    case FETCH_REMINDER_SUCCESS:
+    case DELETE_REMINDER: {
+      const { id } = action.payload;
+      // TODO: deleteQuery
+      const newReminders = state.reminders.filter(
+        (reminder) => reminder.id !== id
+      );
+      return { ...state, reminders: newReminders };
+    }
+    case UPDATE_REMINDER: {
+      const { id, updatedReminder } = action.payload;
+      // TODO: updateQuery
+      const editReminders = state.reminders.map((reminder) =>
+        reminder.id === id ? updatedReminder : reminder
+      );
       return {
         ...state,
-        isLoading: true,
-        data: action.reminders,
-        error: null,
+        reminders: editReminders,
       };
-
-    case SET_REMINDER_SUCCESS:
-      return {
-        ...state,
-        isLoading: true,
-        data: action.reminders,
-        error: null,
-      };
-
-    case DELETE_REMINDER_SUCCESS:
-      return {
-        ...state,
-        isLoading: true,
-        data: action.reminders.filter(
-          (reminder) => reminder.id !== action.reminders.id
-        ),
-        error: null,
-      };
-
-    case UPDATE_REMINDER_SUCCESS:
-      return {
-        ...state,
-        isLoading: true,
-        data: action.reminders.map((reminder) => {
-          if (action.reminders.id === reminder.id)
-            return { ...action.reminders, ...reminder };
-        }),
-        error: null,
-      };
-
-    case FETCH_REMINDER_FAILURE:
-    case SET_REMINDER_FAILURE:
-    case DELETE_REMINDER_FAILURE:
-    case UPDATE_REMINDER_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        data: null,
-        error: true,
-      };
+    }
 
     default:
       return state;

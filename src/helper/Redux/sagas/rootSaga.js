@@ -1,6 +1,16 @@
 import { all } from '@redux-saga/core/effects';
-import { waitForFetchReminders } from './reminder/reminder.saga';
+import {
+  waitForFetchReminders,
+  waitForSetReminders,
+  waitForDeleteReminders,
+  waitForUpdateReminders,
+} from './reminder';
 
 export default function* rootSaga() {
-  yield all([waitForFetchReminders()]);
+  yield all([
+    waitForFetchReminders(),
+    waitForSetReminders(),
+    waitForDeleteReminders(),
+    waitForUpdateReminders(),
+  ]);
 }

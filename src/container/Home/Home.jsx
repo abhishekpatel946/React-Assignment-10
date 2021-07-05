@@ -9,7 +9,11 @@ import { ReminderTabs } from '../Table';
 import Modal from '@material-ui/core/Modal';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './style.scss';
-import { fetchReminder } from '../../helper/Redux/actions/reminder.action';
+import {
+  deleteReminders,
+  setReminders,
+  updateReminders,
+} from '../../helper/Redux/actions/reminder.action';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,16 +34,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
-  // TODO:
-  // Get the from Redux-state using distapching
+  // TODO: Get the from Redux-state using distapching
   const dispatch = useDispatch();
-  const fetchedReminders = dispatch(fetchReminder());
-  // console.log(fetchedReminders);
 
-  // TODO:
-  // getReminder dispatch
-  const getResultReminders = useSelector((state) => state.getResultReminders);
-  // console.log(getResultReminders);
+  // const fetchReminder = dispatch(fetchReminders());
+
+  // TODO: getReminder dispatch
+  const getResultReminders = useSelector((state) => state.reminders);
+  console.log(getResultReminders);
 
   // Setting state
   const [allReminders, setAllReminders] = useState([]);
@@ -61,16 +63,19 @@ const Home = () => {
   // CRUD operations
   const addNewReminder = (reminder) => {
     //TODO: dispatch the SET_REMINDER
+    dispatch(setReminders(reminder));
   };
 
   const deleteOldReminder = (id) => {
     setEditing(false);
     //TODO: dispatch the DELETE_REMINDER
+    dispatch(deleteReminders(id));
   };
 
   const updateOldReminder = (id, updatedReminder) => {
     setEditing(false);
     //TODO: dispatch the UPDATE_REMINDER
+    dispatch(updateReminders(id, updatedReminder));
   };
 
   const editRow = (reminder) => {
