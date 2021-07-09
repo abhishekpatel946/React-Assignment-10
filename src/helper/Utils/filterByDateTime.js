@@ -16,11 +16,12 @@ export const filterByDateTime = (
 
   // filter the past reminders
   const past = allReminders.filter((d) => {
-    const hours = d.timestamp.getHours();
-    const minutes = d.timestamp.getMinutes();
-    const date = d.timestamp.getDate();
-    const month = d.timestamp.getMonth() + 1;
-    const year = d.timestamp.getFullYear();
+    const DateTime = d.timestamp.toDate();
+    const hours = DateTime.getHours();
+    const minutes = DateTime.getMinutes();
+    const date = DateTime.getDate();
+    const month = DateTime.getMonth() + 1;
+    const year = DateTime.getFullYear();
 
     if (year <= currYear) {
       if (month <= currMonth) {
@@ -74,11 +75,12 @@ export const filterByDateTime = (
 
   // filter the future reminders
   const future = allReminders.filter((d) => {
-    const hours = d.timestamp.getHours();
-    const minutes = d.timestamp.getMinutes();
-    const date = d.timestamp.getDate();
-    const month = d.timestamp.getMonth() + 1;
-    const year = d.timestamp.getFullYear();
+    const DateTime = d.timestamp.toDate();
+    const hours = DateTime.getHours();
+    const minutes = DateTime.getMinutes();
+    const date = DateTime.getDate();
+    const month = DateTime.getMonth() + 1;
+    const year = DateTime.getFullYear();
 
     if (year >= currYear) {
       if (month >= currMonth) {

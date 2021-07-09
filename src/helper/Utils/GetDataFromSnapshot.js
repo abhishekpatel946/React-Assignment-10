@@ -8,8 +8,8 @@ export const GetDataFromSnapshot = async (snapshot) => {
         });
         resolve(data);
       },
-      (error) => {
-        console.log(error);
+      (err) => {
+        console.log(err);
         reject();
       }
     );

@@ -9,11 +9,7 @@ import { ReminderTabs } from '../Table';
 import Modal from '@material-ui/core/Modal';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './style.scss';
-import {
-  deleteReminders,
-  setReminders,
-  updateReminders,
-} from '../../helper/Redux/actions/reminder.action';
+import { FETCH_REMINDER } from '../../helper/Redux/types/reminder.types';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,14 +30,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Home = () => {
-  // TODO: Get the from Redux-state using distapching
+  // Get the from Redux-state using distapching
   const dispatch = useDispatch();
-
-  // const fetchReminder = dispatch(fetchReminders());
-
-  // TODO: getReminder dispatch
-  const getResultReminders = useSelector((state) => state.reminders);
-  console.log(getResultReminders);
+  // dispatch({ type: FETCH_REMINDER }); // TODO: cause an infinite dispatch problem
 
   // Setting state
   const [allReminders, setAllReminders] = useState([]);
@@ -50,10 +41,13 @@ const Home = () => {
   const [currentReminder, setCurrentReminder] = useState([]);
   const [editing, setEditing] = useState(false);
 
+  // getReminder dispatch
+  const getResultReminders = useSelector((state) => state.reminders.reminders);
+
   // set the allReminders state using redux
   useEffect(() => {
-    setAllReminders([]);
-  }, []);
+    setAllReminders(getResultReminders);
+  }, [getResultReminders]);
 
   // watcher for filter(past & future) the all the reminders
   useEffect(() => {
@@ -62,20 +56,38 @@ const Home = () => {
 
   // CRUD operations
   const addNewReminder = (reminder) => {
-    //TODO: dispatch the SET_REMINDER
-    dispatch(setReminders(reminder));
+    dispatch({
+      type: 'SET_REMINDER',
+      payload: {
+        id: reminder.id,
+        title: reminder.title,
+        date: reminder.date,
+        time: reminder.time,
+        timestamp: reminder.timestamp,
+      },
+    });
   };
 
-  const deleteOldReminder = (id) => {
+  const deleteOldReminder = ({ id }) => {
     setEditing(false);
-    //TODO: dispatch the DELETE_REMINDER
-    dispatch(deleteReminders(id));
+    dispatch({
+      type: 'DELETE_REMINDER',
+      payload: {
+        id,
+      },
+    });
   };
 
-  const updateOldReminder = (id, updatedReminder) => {
+  const updateOldReminder = ({ id, updatedReminder }) => {
     setEditing(false);
     //TODO: dispatch the UPDATE_REMINDER
-    dispatch(updateReminders(id, updatedReminder));
+    dispatch({
+      type: 'UPDATE_REMINDER',
+      payload: {
+        id,
+        updatedReminder,
+      },
+    });
   };
 
   const editRow = (reminder) => {

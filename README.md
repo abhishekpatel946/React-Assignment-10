@@ -13,7 +13,14 @@ Using all the concepts of hooks you have gathered till now let's create a react 
 
 ## Pending
 ```
-1. Implement the whole thing with Redux-toolkit & Redux-saga & Redux-logger.
+1. fix the infinite dispatching{type: FETCH_REMINDER} from home.jsx.
+2. feat the setReminder.saga.js && SET service.
+2. feat the deleteReminder.saga.js && DELETE service.
+2. feat the updateReminder.saga.js && UPDATE service.
+3. fix the FETCH_REMINDER_FAILURE to handle error.
+3. fix the SET_REMINDER_FAILURE to handle error.
+4. fix the DELETE_REMINDER_FAILURE to handle error.
+5. fix the UPDATE_REMINDER_FAILURE to handle error.
 ```
 
 ## DataFlow

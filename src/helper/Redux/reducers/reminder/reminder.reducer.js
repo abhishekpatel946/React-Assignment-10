@@ -1,30 +1,36 @@
-import {
-  FETCH_REMINDER,
-  SET_REMINDER,
-  DELETE_REMINDER,
-  UPDATE_REMINDER,
-} from '../../types/reminder.types';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const reminderInitialState = {
   // TODO: fetchReminder using watcher-saga from firestore
   reminders: [
     {
-      id: '',
-      title: '',
+      id: '122abcai2',
+      title: 'initial testing title',
+      date: 'June 28, 2021',
+      time: '8:33:22 AM',
       timestamp: new Date(),
     },
   ],
 };
 
-const reminderReducer = (state = reminderInitialState, action) => {
-  switch (action.type) {
-    case FETCH_REMINDER:
+const reminderReducer = createSlice({
+  name: 'ReminderApp',
+  initialState: reminderInitialState,
+  reducers: {
+    // TODO: get the reminder
+    FETCH_REMINDER_SUCCESS(state, action) {
       return {
         ...state,
-        reminders: { ...action.reminders },
+        reminders: [...action.payload],
       };
-    case SET_REMINDER:
-      const { id, title, timestamp } = action.payload;
+    },
+    FETCH_REMINDER_FAILURE(state, action) {
+      return console.error('Something Went Wrong');
+    },
+
+    // TODO: set the reminder
+    SET_REMINDER_SUCCESS(state, action) {
+      const { id, title, date, time, timestamp } = action.payload;
       // TODO: setQuery
       return {
         ...state,
@@ -33,19 +39,32 @@ const reminderReducer = (state = reminderInitialState, action) => {
           {
             id: id,
             title: title,
+            data: date,
+            time: time,
             timestamp: timestamp,
           },
         ],
       };
-    case DELETE_REMINDER: {
+    },
+    SET_REMINDER_FAILURE(state, action) {
+      return console.error('Something Went Wrong');
+    },
+
+    // TODO: delete the reminder
+    DELETE_REMINDER_SUCCESS(state, action) {
       const { id } = action.payload;
       // TODO: deleteQuery
       const newReminders = state.reminders.filter(
         (reminder) => reminder.id !== id
       );
       return { ...state, reminders: newReminders };
-    }
-    case UPDATE_REMINDER: {
+    },
+    DELETE_REMINDER_FAILURE(state, action) {
+      return console.error('Something Went Wrong');
+    },
+
+    // TODO: update the reminder
+    UPDATE_REMINDER_SUCCESS(state, action) {
       const { id, updatedReminder } = action.payload;
       // TODO: updateQuery
       const editReminders = state.reminders.map((reminder) =>
@@ -55,11 +74,22 @@ const reminderReducer = (state = reminderInitialState, action) => {
         ...state,
         reminders: editReminders,
       };
-    }
+    },
+    UPDATE_REMINDER_FAILURE(state, action) {
+      return console.error('Something Went Wrong');
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-};
+export const {
+  FETCH_REMINDER_SUCCESS,
+  FETCH_REMINDER_FAILURE,
+  SET_REMINDER_SUCCESS,
+  SET_REMINDER_FAILURE,
+  DELETE_REMINDER_SUCCESS,
+  DELETE_REMINDER_FAILURE,
+  UPDATE_REMINDER_SUCCESS,
+  UPDATE_REMINDER_FAILURE,
+} = reminderReducer.actions;
 
-export default reminderReducer;
+export default reminderReducer.reducer;
