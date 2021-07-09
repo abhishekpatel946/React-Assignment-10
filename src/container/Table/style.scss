@@ -1,0 +1,40 @@
+@import '../../scss/colorStack';
+@import '../../scss/fontStack';
+
+MuiBox-root MuiBox-root-89 {
+  padding: 0px !important;
+}
+
+.reminder-table {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  .table-container {
+    .actions-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px;
+
+      .edit-icons {
+        color: $lightGreen;
+        cursor: pointer;
+        transition: transform 0.2s;
+        &:hover {
+          color: $lightGrey;
+          transform: scale(1.5);
+        }
+      }
+
+      .del-icons {
+        color: $lightRed;
+        cursor: pointer;
+        transition: transform 0.2s;
+        &:hover {
+          color: $lightGrey;
+          transform: scale(1.5);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.close-icon {
+  float: right;
+}
+
+.form-container {
+  align-items: center;
+}
+
+.fab-icon {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  .add-icon {
+    margin-right: 10px;
+  }
+}
